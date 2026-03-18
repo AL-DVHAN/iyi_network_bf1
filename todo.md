@@ -1,0 +1,54 @@
+# IYI Network BF1 - Proje TODO
+
+## Veritabanı & Altyapı
+- [x] Veritabanı şeması: users, weekly_challenges, challenge_completions, leaderboard_entries, feedback, ban_list, donations, pro_tips, server_stats, ban_appeals
+- [x] tRPC router'ları: encyclopedia, stats, challenges, leaderboard, feedback, server, bans, donations, profile
+- [x] Gametools Network API proxy endpoint'leri
+- [x] Multer dosya yükleme endpoint'i (/api/upload)
+- [x] Stripe webhook endpoint'i (/api/stripe/webhook)
+
+## Tasarım & Layout
+- [x] Global dark mode tema (BF1 askeri atmosferi - koyu gri/kahverengi/altın renk paleti)
+- [x] Ana navigasyon bar (7 bölüm + arama çubuğu + auth)
+- [x] Responsive tasarım (mobil, tablet, masaüstü)
+- [x] BF1 tarzı tipografi (Oswald + Rajdhani fontları)
+
+## Sayfalar
+- [x] Ana sayfa (Hero + canlı sunucu widget + son istatistikler)
+- [x] Ansiklopedi sayfası (silahlar + araçlar, JSON'dan dinamik)
+- [x] Oyuncu istatistik sayfası (Gametools API entegrasyonu)
+- [x] Canlı Sunucu Dashboard (oyuncu sayısı, harita, bilet, admin)
+- [x] Haftalık Görevler sayfası (görevler + rozetler + puan)
+- [x] Liderlik Tablosu (aylık aktif oyuncular, süre/puan/kill bazlı)
+- [x] Hakkımızda sayfası (klan tarihi, üye sayısı, vizyon)
+- [x] Geri Bildirim sayfası (form + Discord Webhook + dosya yükleme)
+- [x] Kullanıcı Profili sayfası (EA hesap bağlama, puan, rozetler)
+- [x] Admin paneli (görev yönetimi, ban listesi, donator yönetimi)
+- [x] Ban listesi & itiraz formu
+- [x] Destekçi Ol sayfası (Stripe Checkout, 4 kademe)
+
+## Özellikler
+- [x] Fuzzy search (Fuse.js) + Türkçe karakter normalizasyonu
+- [x] Oyuncu arama → istatistik sayfasına yönlendirme
+- [x] Silah/araç arama → ansiklopedi sayfasına yönlendirme
+- [x] Oynama süresi standardizasyonu (saniye → saat, yukarı yuvarlama)
+- [x] Discord Webhook entegrasyonu (geri bildirim bildirimleri)
+- [x] Dosya yükleme (video + görsel) geri bildirim formunda
+- [x] Stripe donator sistemi (rozet, isim rengi, ayrıcalıklar)
+- [x] Ban yönetim sistemi (ban listesi, itiraz formu, admin paneli)
+- [x] Rozet ve puan sistemi
+- [x] EA hesap bağlama (Account Linking)
+
+## Testler
+- [x] Auth logout testleri
+- [x] Türkçe karakter normalizasyon testleri (23 test)
+- [x] Oynama süresi yuvarlama testleri
+- [x] Leaderboard, challenges, bans, donations, feedback testleri
+- [x] Tüm 23 test geçiyor ✓
+
+## Gelecek Geliştirmeler
+- [ ] Stripe anahtarları yapılandırıldıktan sonra ödeme akışını test et
+- [ ] EA hesap doğrulama (gerçek EA API entegrasyonu)
+- [ ] Haftalık görev otomatik oluşturma (cron job)
+- [ ] Liderlik tablosu otomatik güncelleme
+- [ ] Hetzner deployment rehberi (DEPLOYMENT.md)

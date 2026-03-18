@@ -1,0 +1,9 @@
+{
+  "query": "\nALTER TABLE users \n  ADD COLUMN IF NOT EXISTS eaUsername VARCHAR(128),\n  ADD COLUMN IF NOT EXISTS eaVerified BOOLEAN NOT NULL DEFAULT FALSE,\n  ADD COLUMN IF NOT EXISTS eaPlatform ENUM('pc','xbox','ps4') DEFAULT 'pc',\n  ADD COLUMN IF NOT EXISTS isDonator BOOLEAN NOT NULL DEFAULT FALSE,\n  ADD COLUMN IF NOT EXISTS donatorBadge VARCHAR(64),\n  ADD COLUMN IF NOT EXISTS nameColor VARCHAR(32),\n  ADD COLUMN IF NOT EXISTS donatorExpiry TIMESTAMP NULL,\n  ADD COLUMN IF NOT EXISTS points INT NOT NULL DEFAULT 0,\n  ADD COLUMN IF NOT EXISTS badges JSON;\n",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2XxYpnXFJ1xZwX1.root --database Gmy9fZETeSxEKPMRqUqKxx --execute \nALTER TABLE users \n  ADD COLUMN IF NOT EXISTS eaUsername VARCHAR(128),\n  ADD COLUMN IF NOT EXISTS eaVerified BOOLEAN NOT NULL DEFAULT FALSE,\n  ADD COLUMN IF NOT EXISTS eaPlatform ENUM('pc','xbox','ps4') DEFAULT 'pc',\n  ADD COLUMN IF NOT EXISTS isDonator BOOLEAN NOT NULL DEFAULT FALSE,\n  ADD COLUMN IF NOT EXISTS donatorBadge VARCHAR(64),\n  ADD COLUMN IF NOT EXISTS nameColor VARCHAR(32),\n  ADD COLUMN IF NOT EXISTS donatorExpiry TIMESTAMP NULL,\n  ADD COLUMN IF NOT EXISTS points INT NOT NULL DEFAULT 0,\n  ADD COLUMN IF NOT EXISTS badges JSON;\n",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 6406
+}
