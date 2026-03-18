@@ -42,7 +42,7 @@ export default function BanList() {
 
       {/* Appeal Form */}
       {showAppeal && (
-        <div className="rounded-lg border p-6 mb-6" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.65 0.12 200 / 0.3)" }}>
+        <div className="rounded-lg border p-6 mb-6" style={{ background: "var(--card)", borderColor: "oklch(0.65 0.12 200 / 0.3)" }}>
           <h3 className="font-semibold text-sm mb-4 flex items-center gap-2">
             <Shield size={14} style={{ color: "oklch(0.65 0.12 200)" }} />
             Ban İtiraz Formu
@@ -50,22 +50,22 @@ export default function BanList() {
           <div className="space-y-3">
             <div>
               <label className="text-xs text-muted-foreground block mb-1">EA Kullanıcı Adınız *</label>
-              <input value={appealForm.eaUsername} onChange={e => setAppealForm(p => ({ ...p, eaUsername: e.target.value }))} placeholder="Banlanan EA hesabı" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input value={appealForm.eaUsername} onChange={e => setAppealForm(p => ({ ...p, eaUsername: e.target.value }))} placeholder="Banlanan EA hesabı" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
             <div>
               <label className="text-xs text-muted-foreground block mb-1">İletişim E-postası</label>
-              <input type="email" value={appealForm.contactEmail} onChange={e => setAppealForm(p => ({ ...p, contactEmail: e.target.value }))} placeholder="yanit@email.com" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input type="email" value={appealForm.contactEmail} onChange={e => setAppealForm(p => ({ ...p, contactEmail: e.target.value }))} placeholder="yanit@email.com" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
             <div>
               <label className="text-xs text-muted-foreground block mb-1">İtiraz Mesajı *</label>
-              <textarea value={appealForm.message} onChange={e => setAppealForm(p => ({ ...p, message: e.target.value }))} placeholder="Neden banlandığınızı düşündüğünüzü ve neden kaldırılması gerektiğini açıklayın..." rows={4} className="w-full px-3 py-2 text-sm rounded border outline-none resize-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <textarea value={appealForm.message} onChange={e => setAppealForm(p => ({ ...p, message: e.target.value }))} placeholder="Neden banlandığınızı düşündüğünüzü ve neden kaldırılması gerektiğini açıklayın..." rows={4} className="w-full px-3 py-2 text-sm rounded border outline-none resize-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
           </div>
           <div className="flex gap-2 mt-4">
-            <button onClick={() => appealMutation.mutate({ ...appealForm, banId: appealForm.banId || 0 })} disabled={!appealForm.eaUsername || !appealForm.message || appealMutation.isPending} className="px-4 py-2 rounded text-sm font-semibold" style={{ background: "oklch(0.65 0.12 200)", color: "oklch(0.10 0.01 60)" }}>
+            <button onClick={() => appealMutation.mutate({ ...appealForm, banId: appealForm.banId || 0 })} disabled={!appealForm.eaUsername || !appealForm.message || appealMutation.isPending} className="px-4 py-2 rounded text-sm font-semibold" style={{ background: "oklch(0.65 0.12 200)", color: "var(--primary-foreground)" }}>
               {appealMutation.isPending ? "Gönderiliyor..." : "İtirazı Gönder"}
             </button>
-            <button onClick={() => setShowAppeal(false)} className="px-4 py-2 rounded text-sm border text-muted-foreground" style={{ borderColor: "oklch(0.28 0.03 60)" }}>İptal</button>
+            <button onClick={() => setShowAppeal(false)} className="px-4 py-2 rounded text-sm border text-muted-foreground" style={{ borderColor: "var(--border)" }}>İptal</button>
           </div>
         </div>
       )}
@@ -81,11 +81,11 @@ export default function BanList() {
       {/* Search */}
       <div className="relative mb-6 max-w-sm">
         <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
-        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Oyuncu ara..." className="w-full h-9 pl-9 pr-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+        <input value={search} onChange={e => setSearch(e.target.value)} placeholder="Oyuncu ara..." className="w-full h-9 pl-9 pr-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
       </div>
 
       {/* Ban List */}
-      <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+      <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         {bansQuery.isLoading ? (
           <div className="p-8 space-y-3">
             {[1,2,3].map(i => <div key={i} className="h-12 rounded bg-muted animate-pulse" />)}

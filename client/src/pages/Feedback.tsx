@@ -96,7 +96,7 @@ export default function Feedback() {
           </div>
           <h2 className="text-xl font-bold text-foreground mb-2" style={{ fontFamily: "'Oswald', sans-serif" }}>Teşekkürler!</h2>
           <p className="text-sm text-muted-foreground mb-6">Geri bildiriminiz alındı. En kısa sürede değerlendireceğiz.</p>
-          <button onClick={() => { setSubmitted(false); setForm({ type: "suggestion", subject: "", message: "", guestName: "", guestEmail: "" }); setAttachments([]); }} className="px-4 py-2 rounded text-sm font-semibold" style={{ background: "oklch(0.72 0.14 75)", color: "oklch(0.10 0.01 60)" }}>
+          <button onClick={() => { setSubmitted(false); setForm({ type: "suggestion", subject: "", message: "", guestName: "", guestEmail: "" }); setAttachments([]); }} className="px-4 py-2 rounded text-sm font-semibold" style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}>
             Yeni Geri Bildirim
           </button>
         </div>
@@ -120,15 +120,15 @@ export default function Feedback() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
         {/* Form */}
         <div className="lg:col-span-2">
-          <form onSubmit={handleSubmit} className="rounded-lg border p-6 space-y-5" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <form onSubmit={handleSubmit} className="rounded-lg border p-6 space-y-5" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             {/* Type Selection */}
             <div>
               <label className="text-xs font-semibold text-muted-foreground uppercase tracking-wider block mb-3">Tür</label>
               <div className="grid grid-cols-2 gap-2">
                 {FEEDBACK_TYPES.map(type => (
                   <button key={type.value} type="button" onClick={() => setForm(p => ({ ...p, type: type.value as typeof p.type }))} className="p-3 rounded border text-left transition-all" style={{
-                    background: form.type === type.value ? "oklch(0.72 0.14 75 / 0.1)" : "oklch(0.14 0.01 58)",
-                    borderColor: form.type === type.value ? "oklch(0.72 0.14 75 / 0.4)" : "oklch(0.25 0.02 60)",
+                    background: form.type === type.value ? "oklch(0.72 0.14 75 / 0.1)" : "var(--muted)",
+                    borderColor: form.type === type.value ? "oklch(0.72 0.14 75 / 0.4)" : "var(--border)",
                   }}>
                     <p className="text-sm font-medium text-foreground">{type.label}</p>
                     <p className="text-xs text-muted-foreground mt-0.5">{type.desc}</p>
@@ -142,11 +142,11 @@ export default function Feedback() {
               <div className="grid grid-cols-2 gap-4">
                 <div>
                   <label className="text-xs text-muted-foreground block mb-1">Adınız *</label>
-                  <input value={form.guestName} onChange={e => setForm(p => ({ ...p, guestName: e.target.value }))} placeholder="Oyuncu adı" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+                  <input value={form.guestName} onChange={e => setForm(p => ({ ...p, guestName: e.target.value }))} placeholder="Oyuncu adı" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
                 </div>
                 <div>
                   <label className="text-xs text-muted-foreground block mb-1">E-posta (opsiyonel)</label>
-                  <input type="email" value={form.guestEmail} onChange={e => setForm(p => ({ ...p, guestEmail: e.target.value }))} placeholder="ornek@email.com" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+                  <input type="email" value={form.guestEmail} onChange={e => setForm(p => ({ ...p, guestEmail: e.target.value }))} placeholder="ornek@email.com" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
                 </div>
               </div>
             )}
@@ -154,20 +154,20 @@ export default function Feedback() {
             {/* Subject */}
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Konu *</label>
-              <input value={form.subject} onChange={e => setForm(p => ({ ...p, subject: e.target.value }))} placeholder="Kısaca konuyu belirtin" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input value={form.subject} onChange={e => setForm(p => ({ ...p, subject: e.target.value }))} placeholder="Kısaca konuyu belirtin" className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
 
             {/* Message */}
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Mesaj *</label>
-              <textarea value={form.message} onChange={e => setForm(p => ({ ...p, message: e.target.value }))} placeholder="Detaylı açıklamanızı yazın..." rows={6} className="w-full px-3 py-2 text-sm rounded border outline-none resize-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <textarea value={form.message} onChange={e => setForm(p => ({ ...p, message: e.target.value }))} placeholder="Detaylı açıklamanızı yazın..." rows={6} className="w-full px-3 py-2 text-sm rounded border outline-none resize-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
               <p className="text-xs text-muted-foreground mt-1">{form.message.length}/5000</p>
             </div>
 
             {/* Attachments */}
             <div>
               <label className="text-xs text-muted-foreground block mb-2">Ekler (Görsel/Video)</label>
-              <label className="flex items-center gap-2 px-4 py-3 rounded border border-dashed cursor-pointer transition-all hover:border-primary/50" style={{ borderColor: "oklch(0.28 0.03 60)", background: "oklch(0.14 0.01 58)" }}>
+              <label className="flex items-center gap-2 px-4 py-3 rounded border border-dashed cursor-pointer transition-all hover:border-primary/50" style={{ borderColor: "var(--border)", background: "var(--muted)" }}>
                 <Upload size={16} className="text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">
                   {uploading ? "Yükleniyor..." : "Dosya seç (görsel, video — max 50MB)"}
@@ -177,7 +177,7 @@ export default function Feedback() {
               {attachments.length > 0 && (
                 <div className="mt-2 flex flex-wrap gap-2">
                   {attachments.map((url, i) => (
-                    <div key={i} className="flex items-center gap-1.5 px-2 py-1 rounded text-xs" style={{ background: "oklch(0.20 0.01 60)", border: "1px solid oklch(0.28 0.03 60)" }}>
+                    <div key={i} className="flex items-center gap-1.5 px-2 py-1 rounded text-xs" style={{ background: "var(--secondary)", border: "1px solid var(--border)" }}>
                       {url.includes("video") || url.includes("mp4") ? <Video size={11} /> : <Image size={11} />}
                       <span className="text-muted-foreground max-w-32 truncate">{url.split("/").pop() || `Dosya ${i + 1}`}</span>
                       <button type="button" onClick={() => setAttachments(prev => prev.filter((_, j) => j !== i))} className="text-muted-foreground hover:text-foreground">
@@ -190,7 +190,7 @@ export default function Feedback() {
             </div>
 
             {/* Submit */}
-            <button type="submit" disabled={submitMutation.isPending || !form.subject || !form.message} className="w-full py-2.5 rounded font-semibold text-sm transition-all disabled:opacity-50" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.65 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+            <button type="submit" disabled={submitMutation.isPending || !form.subject || !form.message} className="w-full py-2.5 rounded font-semibold text-sm transition-all disabled:opacity-50" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.65 0.12 70))", color: "var(--primary-foreground)" }}>
               {submitMutation.isPending ? "Gönderiliyor..." : "Gönder"}
             </button>
           </form>
@@ -198,7 +198,7 @@ export default function Feedback() {
 
         {/* Info Sidebar */}
         <div className="space-y-4">
-          <div className="rounded-lg border p-4" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="rounded-lg border p-4" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <h3 className="font-semibold text-sm mb-3">Nasıl Çalışır?</h3>
             <div className="space-y-3 text-xs text-muted-foreground">
               <div className="flex items-start gap-2">
@@ -220,7 +220,7 @@ export default function Feedback() {
             </div>
           </div>
 
-          <div className="rounded-lg border p-4" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="rounded-lg border p-4" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2 mb-2">
               <AlertCircle size={14} style={{ color: "oklch(0.70 0.15 30)" }} />
               <h3 className="font-semibold text-sm">Önemli Not</h3>
@@ -231,7 +231,7 @@ export default function Feedback() {
           </div>
 
           {isAuthenticated && user && (
-            <div className="rounded-lg border p-4" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+            <div className="rounded-lg border p-4" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
               <p className="text-xs text-muted-foreground">Giriş yapıldı:</p>
               <p className="text-sm font-medium text-foreground mt-0.5">{user.name || user.email}</p>
             </div>

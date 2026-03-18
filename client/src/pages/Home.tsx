@@ -32,7 +32,7 @@ export default function Home() {
   return (
     <div>
       {/* ─── HERO ─── */}
-      <section className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, oklch(0.10 0.015 58) 0%, oklch(0.13 0.015 58) 100%)" }}>
+      <section className="relative overflow-hidden" style={{ background: "linear-gradient(180deg, var(--background) 0%, var(--background) 100%)" }}>
         <div className="absolute inset-0 pointer-events-none" style={{
           backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.02'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
         }} />
@@ -42,7 +42,7 @@ export default function Home() {
               <Zap size={12} />
               Battlefield 1 Topluluk Portalı
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.92 0.02 80)" }}>
+            <h1 className="text-4xl md:text-6xl font-bold mb-4 leading-tight" style={{ fontFamily: "'Oswald', sans-serif", color: "var(--foreground)" }}>
               IYI <span style={{ color: "oklch(0.75 0.16 75)" }}>NETWORK</span>
             </h1>
             <p className="text-lg text-muted-foreground mb-8 max-w-xl mx-auto">
@@ -56,9 +56,9 @@ export default function Home() {
                 onChange={e => setSearchInput(e.target.value)}
                 placeholder="Oyuncu adı gir (örn: DVHAN)"
                 className="flex-1 h-11 px-4 text-sm rounded-l-lg border outline-none"
-                style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.30 0.03 60)", color: "oklch(0.92 0.02 80)" }}
+                style={{ background: "var(--input)", borderColor: "oklch(0.30 0.03 60)", color: "var(--foreground)" }}
               />
-              <button type="submit" className="h-11 px-5 rounded-r-lg font-semibold text-sm" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.65 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+              <button type="submit" className="h-11 px-5 rounded-r-lg font-semibold text-sm" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.65 0.12 70))", color: "var(--primary-foreground)" }}>
                 İstatistik Ara
               </button>
             </form>
@@ -81,7 +81,7 @@ export default function Home() {
       </section>
 
       {/* ─── STATS BAR ─── */}
-      <div className="border-y" style={{ borderColor: "oklch(0.22 0.02 60)", background: "oklch(0.14 0.015 58)" }}>
+      <div className="border-y" style={{ borderColor: "var(--border)", background: "var(--muted)" }}>
         <div className="container py-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
@@ -98,7 +98,7 @@ export default function Home() {
                   </div>
                   <div>
                     <p className="text-xs text-muted-foreground">{stat.label}</p>
-                    <p className="text-base font-bold" style={{ fontFamily: "'Rajdhani', sans-serif", color: "oklch(0.92 0.02 80)" }}>{stat.value}</p>
+                    <p className="text-base font-bold" style={{ fontFamily: "'Rajdhani', sans-serif", color: "var(--foreground)" }}>{stat.value}</p>
                   </div>
                 </div>
               );
@@ -114,7 +114,7 @@ export default function Home() {
           <div className="lg:col-span-2 space-y-6">
             {/* Feature Grid */}
             <div>
-              <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.92 0.02 80)" }}>
+              <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif", color: "var(--foreground)" }}>
                 Keşfet
               </h2>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -124,7 +124,7 @@ export default function Home() {
                     icon: BookOpen,
                     title: "Ansiklopedi",
                     desc: "Tüm silahlar, araçlar ve sınıflar hakkında detaylı bilgi. Pro-Tips ile uzman stratejileri öğren.",
-                    color: "oklch(0.72 0.14 75)",
+                    color: "var(--primary)",
                     bg: "oklch(0.72 0.14 75 / 0.1)",
                   },
                   {
@@ -155,7 +155,7 @@ export default function Home() {
                   const Icon = card.icon;
                   return (
                     <Link key={i} href={card.href} className="no-underline group">
-                      <div className="p-4 rounded-lg border transition-all group-hover:border-primary/40" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+                      <div className="p-4 rounded-lg border transition-all group-hover:border-primary/40" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
                         <div className="w-10 h-10 rounded-lg flex items-center justify-center mb-3" style={{ background: card.bg }}>
                           <Icon size={20} style={{ color: card.color }} />
                         </div>
@@ -172,17 +172,17 @@ export default function Home() {
             </div>
 
             {/* Leaderboard Preview */}
-            <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-              <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+            <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
                 <div className="flex items-center gap-2">
                   <Trophy size={16} style={{ color: "oklch(0.75 0.16 75)" }} />
                   <h3 className="font-semibold text-sm">Bu Ayki Liderler</h3>
                 </div>
-                <Link href="/liderlik" className="text-xs no-underline" style={{ color: "oklch(0.72 0.14 75)" }}>
+                <Link href="/liderlik" className="text-xs no-underline" style={{ color: "var(--primary)" }}>
                   Tümünü Gör →
                 </Link>
               </div>
-              <div className="divide-y" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+              <div className="divide-y" style={{ borderColor: "var(--border)" }}>
                 {leaderboardQuery.isLoading ? (
                   Array.from({ length: 5 }).map((_, i) => (
                     <div key={i} className="flex items-center gap-3 px-4 py-3 animate-pulse">
@@ -216,13 +216,13 @@ export default function Home() {
           {/* Right Sidebar */}
           <div className="space-y-4">
             {/* Live Server Widget */}
-            <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-              <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+            <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+              <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
                 <div className="flex items-center gap-2">
                   <div className="live-dot" />
                   <h3 className="font-semibold text-sm">Canlı Sunucu</h3>
                 </div>
-                <Link href="/sunucu" className="text-xs no-underline" style={{ color: "oklch(0.72 0.14 75)" }}>
+                <Link href="/sunucu" className="text-xs no-underline" style={{ color: "var(--primary)" }}>
                   Detay →
                 </Link>
               </div>
@@ -244,7 +244,7 @@ export default function Home() {
                       <p className="text-sm font-medium text-foreground">{serverData.currentMap || "Bilinmiyor"}</p>
                     </div>
                     {/* Score */}
-                    <div className="rounded p-3" style={{ background: "oklch(0.13 0.01 58)" }}>
+                    <div className="rounded p-3" style={{ background: "var(--background)" }}>
                       <div className="flex items-center justify-between mb-2">
                         <span className="text-xs text-muted-foreground">Skor</span>
                         <span className="text-xs text-muted-foreground">{serverData.gameMode || "CQ"}</span>
@@ -274,7 +274,7 @@ export default function Home() {
                   <div className="text-center py-4">
                     <Server size={24} className="mx-auto mb-2 text-muted-foreground" />
                     <p className="text-xs text-muted-foreground">Sunucu verisi yüklenemiyor</p>
-                    <Link href="/sunucu" className="text-xs no-underline mt-1 block" style={{ color: "oklch(0.72 0.14 75)" }}>
+                    <Link href="/sunucu" className="text-xs no-underline mt-1 block" style={{ color: "var(--primary)" }}>
                       Sunucu sayfasına git →
                     </Link>
                   </div>
@@ -292,18 +292,18 @@ export default function Home() {
                 <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
                   Hesap oluştur, EA hesabını bağla ve klan özelliklerine erişim sağla.
                 </p>
-                <a href={getLoginUrl()} className="w-full flex items-center justify-center gap-2 py-2 rounded text-xs font-semibold no-underline" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.65 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+                <a href={getLoginUrl()} className="w-full flex items-center justify-center gap-2 py-2 rounded text-xs font-semibold no-underline" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.65 0.12 70))", color: "var(--primary-foreground)" }}>
                   Ücretsiz Kayıt Ol
                 </a>
               </div>
             )}
 
             {/* Quick Links */}
-            <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-              <div className="px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+            <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+              <div className="px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
                 <h3 className="font-semibold text-sm">Hızlı Erişim</h3>
               </div>
-              <div className="divide-y" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+              <div className="divide-y" style={{ borderColor: "var(--border)" }}>
                 {[
                   { href: "/ban-listesi", label: "Ban Listesi", icon: Shield },
                   { href: "/destek", label: "Destekçi Ol", icon: Star },

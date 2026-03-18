@@ -25,11 +25,11 @@ export default function Profile() {
       <div className="container py-8">
         <div className="max-w-md mx-auto text-center py-16">
           <div className="w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4" style={{ background: "oklch(0.72 0.14 75 / 0.1)" }}>
-            <User size={28} style={{ color: "oklch(0.72 0.14 75)" }} />
+            <User size={28} style={{ color: "var(--primary)" }} />
           </div>
           <h2 className="text-xl font-bold text-foreground mb-2">Giriş Gerekli</h2>
           <p className="text-sm text-muted-foreground mb-6">Profilinizi görüntülemek için giriş yapın.</p>
-          <a href={getLoginUrl()} className="inline-flex items-center gap-2 px-6 py-2.5 rounded font-semibold text-sm no-underline" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.65 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+          <a href={getLoginUrl()} className="inline-flex items-center gap-2 px-6 py-2.5 rounded font-semibold text-sm no-underline" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.65 0.12 70))", color: "var(--primary-foreground)" }}>
             Giriş Yap
           </a>
         </div>
@@ -43,15 +43,15 @@ export default function Profile() {
     <div className="container py-8 max-w-2xl">
       <div className="flex items-center gap-3 mb-6">
         <div className="w-10 h-10 rounded-lg flex items-center justify-center" style={{ background: "oklch(0.72 0.14 75 / 0.15)" }}>
-          <User size={20} style={{ color: "oklch(0.72 0.14 75)" }} />
+          <User size={20} style={{ color: "var(--primary)" }} />
         </div>
         <h1 className="text-2xl font-bold" style={{ fontFamily: "'Oswald', sans-serif" }}>Profilim</h1>
       </div>
 
       {/* Profile Card */}
-      <div className="rounded-lg border p-6 mb-6" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+      <div className="rounded-lg border p-6 mb-6" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         <div className="flex items-center gap-4 mb-6">
-          <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.60 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+          <div className="w-16 h-16 rounded-full flex items-center justify-center text-2xl font-bold" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.60 0.12 70))", color: "var(--primary-foreground)" }}>
             {(user?.name || user?.email || "?")[0].toUpperCase()}
           </div>
           <div>
@@ -71,30 +71,30 @@ export default function Profile() {
         </div>
 
         <div className="grid grid-cols-2 gap-4 mb-6">
-          <div className="p-3 rounded border" style={{ background: "oklch(0.14 0.01 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="p-3 rounded border" style={{ background: "var(--muted)", borderColor: "var(--border)" }}>
             <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><Star size={11} /> Puan</p>
             <p className="text-xl font-bold text-foreground" style={{ fontFamily: "'Rajdhani', sans-serif" }}>{profile?.points || 0}</p>
           </div>
-          <div className="p-3 rounded border" style={{ background: "oklch(0.14 0.01 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="p-3 rounded border" style={{ background: "var(--muted)", borderColor: "var(--border)" }}>
             <p className="text-xs text-muted-foreground mb-1 flex items-center gap-1"><Clock size={11} /> Üyelik</p>
             <p className="text-sm font-medium text-foreground">{profile?.createdAt ? new Date(profile.createdAt).toLocaleDateString("tr-TR") : "—"}</p>
           </div>
         </div>
 
         {/* EA Account Linking */}
-        <div className="border-t pt-4" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+        <div className="border-t pt-4" style={{ borderColor: "var(--border)" }}>
           <h3 className="font-semibold text-sm mb-3 flex items-center gap-2">
-            <Link2 size={14} style={{ color: "oklch(0.72 0.14 75)" }} />
+            <Link2 size={14} style={{ color: "var(--primary)" }} />
             EA Hesabı Bağlama
           </h3>
           {profile?.eaUsername ? (
-            <div className="flex items-center gap-3 p-3 rounded border" style={{ background: "oklch(0.14 0.01 58)", borderColor: "oklch(0.60 0.15 145 / 0.3)" }}>
+            <div className="flex items-center gap-3 p-3 rounded border" style={{ background: "var(--muted)", borderColor: "oklch(0.60 0.15 145 / 0.3)" }}>
               <CheckCircle size={16} style={{ color: "oklch(0.60 0.15 145)" }} />
               <div>
                 <p className="text-sm font-medium text-foreground">{profile.eaUsername}</p>
                 <p className="text-xs text-muted-foreground">{profile.eaPlatform?.toUpperCase()} • {profile.eaVerified ? "Doğrulandı" : "Doğrulama Bekleniyor"}</p>
               </div>
-              <Link href={`/istatistik?player=${encodeURIComponent(profile.eaUsername)}`} className="ml-auto text-xs no-underline" style={{ color: "oklch(0.72 0.14 75)" }}>
+              <Link href={`/istatistik?player=${encodeURIComponent(profile.eaUsername)}`} className="ml-auto text-xs no-underline" style={{ color: "var(--primary)" }}>
                 İstatistikleri Gör →
               </Link>
             </div>
@@ -102,13 +102,13 @@ export default function Profile() {
             <div className="space-y-3">
               <p className="text-xs text-muted-foreground">EA hesabınızı bağlayarak istatistiklerinizi otomatik senkronize edin.</p>
               <div className="flex gap-2">
-                <input value={eaUsername} onChange={e => setEaUsername(e.target.value)} placeholder="EA Oyuncu Adı" className="flex-1 h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
-                <select value={platform} onChange={e => setPlatform(e.target.value as typeof platform)} className="h-9 px-2 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }}>
+                <input value={eaUsername} onChange={e => setEaUsername(e.target.value)} placeholder="EA Oyuncu Adı" className="flex-1 h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
+                <select value={platform} onChange={e => setPlatform(e.target.value as typeof platform)} className="h-9 px-2 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }}>
                   <option value="pc">PC</option>
                   <option value="xbox">Xbox</option>
                   <option value="ps4">PS4</option>
                 </select>
-                <button onClick={() => updateEaMutation.mutate({ eaUsername, platform })} disabled={!eaUsername || updateEaMutation.isPending} className="px-3 h-9 rounded text-xs font-semibold" style={{ background: "oklch(0.72 0.14 75)", color: "oklch(0.10 0.01 60)" }}>
+                <button onClick={() => updateEaMutation.mutate({ eaUsername, platform })} disabled={!eaUsername || updateEaMutation.isPending} className="px-3 h-9 rounded text-xs font-semibold" style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}>
                   Bağla
                 </button>
               </div>
@@ -119,11 +119,11 @@ export default function Profile() {
 
       {/* Quick Links */}
       <div className="grid grid-cols-2 gap-3">
-        <Link href="/istatistik" className="p-3 rounded-lg border flex items-center gap-2 no-underline hover:border-primary/50 transition-all" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-          <Shield size={16} style={{ color: "oklch(0.72 0.14 75)" }} />
+        <Link href="/istatistik" className="p-3 rounded-lg border flex items-center gap-2 no-underline hover:border-primary/50 transition-all" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+          <Shield size={16} style={{ color: "var(--primary)" }} />
           <span className="text-sm text-foreground">İstatistiklerim</span>
         </Link>
-        <Link href="/destek" className="p-3 rounded-lg border flex items-center gap-2 no-underline hover:border-primary/50 transition-all" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+        <Link href="/destek" className="p-3 rounded-lg border flex items-center gap-2 no-underline hover:border-primary/50 transition-all" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
           <Star size={16} style={{ color: "oklch(0.70 0.15 30)" }} />
           <span className="text-sm text-foreground">Destekçi Ol</span>
         </Link>

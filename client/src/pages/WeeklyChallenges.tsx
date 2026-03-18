@@ -16,7 +16,7 @@ const CHALLENGE_TYPE_LABELS: Record<string, string> = {
 };
 
 const CHALLENGE_TYPE_COLORS: Record<string, string> = {
-  kills: "oklch(0.72 0.14 75)",
+  kills: "var(--primary)",
   revives: "oklch(0.60 0.15 145)",
   playtime: "oklch(0.65 0.12 200)",
   headshots: "oklch(0.70 0.15 30)",
@@ -84,45 +84,45 @@ export default function WeeklyChallenges() {
 
       {/* Create Form (Admin) */}
       {showCreateForm && (
-        <div className="rounded-lg border p-6 mb-6" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+        <div className="rounded-lg border p-6 mb-6" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
           <h3 className="font-semibold text-sm mb-4">Yeni Görev Oluştur</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Başlık</label>
-              <input value={newChallenge.title} onChange={e => setNewChallenge(p => ({ ...p, title: e.target.value }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input value={newChallenge.title} onChange={e => setNewChallenge(p => ({ ...p, title: e.target.value }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Tür</label>
-              <select value={newChallenge.type} onChange={e => setNewChallenge(p => ({ ...p, type: e.target.value as typeof p.type }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }}>
+              <select value={newChallenge.type} onChange={e => setNewChallenge(p => ({ ...p, type: e.target.value as typeof p.type }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }}>
                 {Object.entries(CHALLENGE_TYPE_LABELS).map(([k, v]) => <option key={k} value={k}>{v}</option>)}
               </select>
             </div>
             <div className="md:col-span-2">
               <label className="text-xs text-muted-foreground block mb-1">Açıklama</label>
-              <textarea value={newChallenge.description} onChange={e => setNewChallenge(p => ({ ...p, description: e.target.value }))} rows={2} className="w-full px-3 py-2 text-sm rounded border outline-none resize-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <textarea value={newChallenge.description} onChange={e => setNewChallenge(p => ({ ...p, description: e.target.value }))} rows={2} className="w-full px-3 py-2 text-sm rounded border outline-none resize-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Hedef Değer</label>
-              <input type="number" value={newChallenge.targetValue} onChange={e => setNewChallenge(p => ({ ...p, targetValue: Number(e.target.value) }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input type="number" value={newChallenge.targetValue} onChange={e => setNewChallenge(p => ({ ...p, targetValue: Number(e.target.value) }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Ödül Puanı</label>
-              <input type="number" value={newChallenge.rewardPoints} onChange={e => setNewChallenge(p => ({ ...p, rewardPoints: Number(e.target.value) }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input type="number" value={newChallenge.rewardPoints} onChange={e => setNewChallenge(p => ({ ...p, rewardPoints: Number(e.target.value) }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Başlangıç</label>
-              <input type="date" value={newChallenge.weekStart} onChange={e => setNewChallenge(p => ({ ...p, weekStart: e.target.value }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input type="date" value={newChallenge.weekStart} onChange={e => setNewChallenge(p => ({ ...p, weekStart: e.target.value }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
             <div>
               <label className="text-xs text-muted-foreground block mb-1">Bitiş</label>
-              <input type="date" value={newChallenge.weekEnd} onChange={e => setNewChallenge(p => ({ ...p, weekEnd: e.target.value }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }} />
+              <input type="date" value={newChallenge.weekEnd} onChange={e => setNewChallenge(p => ({ ...p, weekEnd: e.target.value }))} className="w-full h-9 px-3 text-sm rounded border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }} />
             </div>
           </div>
           <div className="flex gap-2 mt-4">
-            <button onClick={() => createMutation.mutate(newChallenge)} disabled={!newChallenge.title || createMutation.isPending} className="px-4 py-2 rounded text-sm font-semibold" style={{ background: "oklch(0.72 0.14 75)", color: "oklch(0.10 0.01 60)" }}>
+            <button onClick={() => createMutation.mutate(newChallenge)} disabled={!newChallenge.title || createMutation.isPending} className="px-4 py-2 rounded text-sm font-semibold" style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}>
               {createMutation.isPending ? "Oluşturuluyor..." : "Oluştur"}
             </button>
-            <button onClick={() => setShowCreateForm(false)} className="px-4 py-2 rounded text-sm border text-muted-foreground" style={{ borderColor: "oklch(0.28 0.03 60)" }}>İptal</button>
+            <button onClick={() => setShowCreateForm(false)} className="px-4 py-2 rounded text-sm border text-muted-foreground" style={{ borderColor: "var(--border)" }}>İptal</button>
           </div>
         </div>
       )}
@@ -150,11 +150,11 @@ export default function WeeklyChallenges() {
             ))}
           </div>
         ) : (
-          <div className="text-center py-12 rounded-lg border" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="text-center py-12 rounded-lg border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <Target size={32} className="mx-auto mb-3 text-muted-foreground" />
             <p className="text-sm text-muted-foreground">Bu hafta için henüz görev oluşturulmadı.</p>
             {user?.role === "admin" && (
-              <button onClick={() => setShowCreateForm(true)} className="mt-3 text-xs font-medium" style={{ color: "oklch(0.72 0.14 75)" }}>
+              <button onClick={() => setShowCreateForm(true)} className="mt-3 text-xs font-medium" style={{ color: "var(--primary)" }}>
                 İlk görevi oluştur →
               </button>
             )}
@@ -165,7 +165,7 @@ export default function WeeklyChallenges() {
       {/* All Challenges */}
       <div>
         <h2 className="text-lg font-semibold mb-4" style={{ fontFamily: "'Oswald', sans-serif" }}>Tüm Görevler</h2>
-        <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+        <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
           <div className="overflow-x-auto">
             <table className="table-bf1">
               <thead>
@@ -230,7 +230,7 @@ function ChallengeCard({ challenge, isAuthenticated, onComplete, isCompleting }:
 }) {
   const color = CHALLENGE_TYPE_COLORS[challenge.type] || "oklch(0.55 0.02 80)";
   return (
-    <div className="rounded-lg border p-4 flex flex-col" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)", borderTop: `2px solid ${color}` }}>
+    <div className="rounded-lg border p-4 flex flex-col" style={{ background: "var(--card)", borderColor: "var(--border)", borderTop: `2px solid ${color}` }}>
       <div className="flex items-start justify-between gap-2 mb-3">
         <div className="w-8 h-8 rounded flex items-center justify-center shrink-0" style={{ background: `${color} / 0.15` }}>
           <Target size={16} style={{ color }} />
@@ -253,7 +253,7 @@ function ChallengeCard({ challenge, isAuthenticated, onComplete, isCompleting }:
       </div>
       {challenge.rewardBadge && (
         <div className="flex items-center gap-1 text-xs text-muted-foreground mb-3">
-          <Trophy size={11} style={{ color: "oklch(0.72 0.14 75)" }} />
+          <Trophy size={11} style={{ color: "var(--primary)" }} />
           <span>Rozet: {challenge.rewardBadge}</span>
         </div>
       )}
@@ -263,7 +263,7 @@ function ChallengeCard({ challenge, isAuthenticated, onComplete, isCompleting }:
           {isCompleting ? "Kaydediliyor..." : "Tamamlandı Olarak İşaretle"}
         </button>
       ) : (
-        <a href={getLoginUrl()} className="w-full flex items-center justify-center gap-2 py-2 rounded text-xs font-medium no-underline" style={{ background: "oklch(0.22 0.02 60)", color: "oklch(0.55 0.02 80)" }}>
+        <a href={getLoginUrl()} className="w-full flex items-center justify-center gap-2 py-2 rounded text-xs font-medium no-underline" style={{ background: "var(--border)", color: "oklch(0.55 0.02 80)" }}>
           <Lock size={13} />
           Giriş Yaparak Katıl
         </a>

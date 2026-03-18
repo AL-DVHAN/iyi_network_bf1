@@ -186,8 +186,8 @@ function useSortable<T>(items: T[], defaultKey: keyof T) {
 
   const SortIcon = ({ k }: { k: keyof T }) => {
     if (sortKey !== k) return <ChevronsUpDown size={11} className="opacity-40 inline ml-0.5" />;
-    if (sortDir === "desc") return <ChevronDown size={11} className="inline ml-0.5" style={{ color: "oklch(0.72 0.14 75)" }} />;
-    if (sortDir === "asc") return <ChevronUp size={11} className="inline ml-0.5" style={{ color: "oklch(0.72 0.14 75)" }} />;
+    if (sortDir === "desc") return <ChevronDown size={11} className="inline ml-0.5" style={{ color: "var(--primary)" }} />;
+    if (sortDir === "asc") return <ChevronUp size={11} className="inline ml-0.5" style={{ color: "var(--primary)" }} />;
     return <ChevronsUpDown size={11} className="opacity-40 inline ml-0.5" />;
   };
 
@@ -250,15 +250,15 @@ export default function Stats() {
             onChange={e => setPlayerInput(e.target.value)}
             placeholder="Oyuncu adı gir (örn: DVHAN, rainrapmusic0001)"
             className="w-full h-10 pl-9 pr-3 text-sm rounded-l border outline-none"
-            style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }}
+            style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }}
           />
         </div>
-        <select value={platform} onChange={e => setPlatform(e.target.value)} className="h-10 px-3 text-sm border outline-none" style={{ background: "oklch(0.18 0.01 60)", borderColor: "oklch(0.28 0.03 60)", color: "oklch(0.92 0.02 80)" }}>
+        <select value={platform} onChange={e => setPlatform(e.target.value)} className="h-10 px-3 text-sm border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }}>
           <option value="pc">PC</option>
           <option value="xbox">Xbox</option>
           <option value="ps4">PS4</option>
         </select>
-        <button type="submit" className="h-10 px-4 rounded-r text-sm font-semibold" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.65 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+        <button type="submit" className="h-10 px-4 rounded-r text-sm font-semibold" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.65 0.12 70))", color: "var(--primary-foreground)" }}>
           Ara
         </button>
       </form>
@@ -292,14 +292,14 @@ export default function Stats() {
       {data && !statsQuery.isLoading && (
         <div className="space-y-6">
           {/* Profile Card */}
-          <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-            <div className="p-6" style={{ background: "linear-gradient(135deg, oklch(0.16 0.02 58), oklch(0.13 0.015 55))" }}>
+          <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+            <div className="p-6" style={{ background: "linear-gradient(135deg, var(--card), var(--background))" }}>
               <div className="flex items-start gap-4">
                 <div className="relative">
                   {data.avatar ? (
                     <img src={data.avatar} alt={data.userName} className="w-16 h-16 rounded-lg object-cover" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                   ) : (
-                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ background: "oklch(0.22 0.02 60)" }}>
+                    <div className="w-16 h-16 rounded-lg flex items-center justify-center" style={{ background: "var(--border)" }}>
                       <User size={28} className="text-muted-foreground" />
                     </div>
                   )}
@@ -311,7 +311,7 @@ export default function Stats() {
                   <div className="flex items-center gap-2 mb-1">
                     <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: "'Oswald', sans-serif" }}>{data.userName || searchedPlayer}</h2>
                     {data.bestClass && (
-                      <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.72 0.14 75 / 0.15)", color: "oklch(0.72 0.14 75)" }}>
+                      <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.72 0.14 75 / 0.15)", color: "var(--primary)" }}>
                         {data.bestClass}
                       </span>
                     )}
@@ -325,7 +325,7 @@ export default function Stats() {
                       </span>
                     )}
                     {data.roundsPlayed > 0 && <span>{formatNumber(data.roundsPlayed)} Tur</span>}
-                    <span className="text-xs px-1.5 py-0.5 rounded" style={{ background: "oklch(0.22 0.02 60)" }}>
+                    <span className="text-xs px-1.5 py-0.5 rounded" style={{ background: "var(--border)" }}>
                       {platform.toUpperCase()}
                     </span>
                   </div>
@@ -340,7 +340,7 @@ export default function Stats() {
               label="K/D Oranı"
               value={data.kdr > 0 ? data.kdr.toFixed(2) : formatKD(data.kills, data.deaths)}
               sub={`${formatNumber(data.kills)} Kill / ${formatNumber(data.deaths)} Ölüm`}
-              color="oklch(0.72 0.14 75)"
+              color="var(--primary)"
               icon={<Crosshair size={16} />}
             />
             <StatWidget
@@ -376,7 +376,7 @@ export default function Stats() {
               { label: "Galibiyet", value: formatNumber(data.wins) },
               { label: "Mağlubiyet", value: formatNumber(data.losses) },
             ].map((s, i) => (
-              <div key={i} className="p-3 rounded border text-center" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+              <div key={i} className="p-3 rounded border text-center" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
                 <p className="text-xs text-muted-foreground mb-1">{s.label}</p>
                 <p className="text-base font-bold text-foreground" style={{ fontFamily: "'Rajdhani', sans-serif" }}>{s.value}</p>
               </div>
@@ -425,10 +425,10 @@ function WeaponsTable({ weapons }: { weapons: ParsedWeapon[] }) {
   const { sorted, toggle, SortIcon } = useSortable(weapons, "kills");
 
   return (
-    <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-      <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+    <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+      <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
         <h3 className="font-semibold text-sm">En Çok Kullanılan Silahlar</h3>
-        <Link href="/ansiklopedi" className="text-xs no-underline" style={{ color: "oklch(0.72 0.14 75)" }}>Ansiklopedi →</Link>
+        <Link href="/ansiklopedi" className="text-xs no-underline" style={{ color: "var(--primary)" }}>Ansiklopedi →</Link>
       </div>
       <div className="overflow-x-auto">
         <table className="table-bf1">
@@ -485,8 +485,8 @@ function VehiclesTable({ vehicles }: { vehicles: ParsedVehicle[] }) {
   const { sorted, toggle, SortIcon } = useSortable(vehicles, "kills");
 
   return (
-    <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-      <div className="px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+    <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+      <div className="px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
         <h3 className="font-semibold text-sm">Araç İstatistikleri</h3>
       </div>
       <div className="overflow-x-auto">
@@ -540,8 +540,8 @@ function ClassesTable({ classes }: { classes: ParsedClass[] }) {
   const { sorted, toggle, SortIcon } = useSortable(classes, "kills");
 
   return (
-    <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-      <div className="px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+    <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+      <div className="px-4 py-3 border-b" style={{ borderColor: "var(--border)" }}>
         <h3 className="font-semibold text-sm">Sınıf İstatistikleri</h3>
       </div>
       <div className="overflow-x-auto">
@@ -590,7 +590,7 @@ function ClassesTable({ classes }: { classes: ParsedClass[] }) {
 // ─── Stat Widget ──────────────────────────────────────────────────────────────
 function StatWidget({ label, value, sub, color, icon }: { label: string; value: string; sub: string; color: string; icon: React.ReactNode }) {
   return (
-    <div className="p-4 rounded-lg border" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+    <div className="p-4 rounded-lg border" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
       <div className="flex items-center justify-between mb-2">
         <span className="text-xs text-muted-foreground">{label}</span>
         <span style={{ color }}>{icon}</span>

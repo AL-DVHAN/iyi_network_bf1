@@ -79,3 +79,14 @@
 - [x] Renk temasını mavi tonlara çek
 - [x] Tema seçici ekle (Siyah / Mavi / Beyaz) - üst panelden erişilebilsin
 - [x] Navbar yüksekliğini büyüt, kategoriler arası boşluğu artır
+
+## 5. Tur İstekler
+- [ ] Tema renk uyumu düzeltilsin (kahverengi kalıntılar, beyaz temada görünmez yazılar)
+- [ ] Ansiklopedi silah sırası yeni JSON'dan güncellenmeli (Türkçe isimler, doğru kategoriler)
+- [ ] Ansiklopedi detay kartından Referans Kill/İsabet/Süre istatistikleri kaldırılsın
+- [ ] Ansiklopedi kategori içeriklerine BAKIMDA yazısı eklensin
+- [ ] Navbar: IYI Network → KAYI BOYU CLAN, BF1 yazısı kaldırılsın
+- [ ] Navbar yüksekliği ve yazı boyutu büyütülsün
+- [ ] Footer: 2024→2025, Gametools mention ekle, sarı IYI ikonu ve portal yazıları kaldırılsın
+- [ ] Destekçi Ol: Tek paket, 100 TL, basit özellikler
+- [ ] Canlı Sunucu: Conquest→Fetih, API ibaresi kaldırılsın, detay paneli toggle ile açılsın

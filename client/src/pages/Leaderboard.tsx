@@ -53,9 +53,9 @@ export default function Leaderboard() {
           const Icon = opt.icon;
           return (
             <button key={opt.key} onClick={() => setSortBy(opt.key)} className="flex items-center gap-1.5 px-3 py-1.5 rounded text-xs font-medium transition-all" style={{
-              background: sortBy === opt.key ? "oklch(0.72 0.14 75 / 0.2)" : "oklch(0.18 0.01 60)",
+              background: sortBy === opt.key ? "oklch(0.72 0.14 75 / 0.2)" : "var(--input)",
               color: sortBy === opt.key ? "oklch(0.75 0.16 75)" : "oklch(0.55 0.02 80)",
-              border: `1px solid ${sortBy === opt.key ? "oklch(0.72 0.14 75 / 0.4)" : "oklch(0.25 0.02 60)"}`,
+              border: `1px solid ${sortBy === opt.key ? "oklch(0.72 0.14 75 / 0.4)" : "var(--border)"}`,
             }}>
               <Icon size={12} /> {opt.label}
             </button>
@@ -104,7 +104,7 @@ export default function Leaderboard() {
       )}
 
       {/* Full Table */}
-      <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+      <div className="rounded-lg border overflow-hidden" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
         {query.isLoading ? (
           <div className="p-8 space-y-3">
             {[1,2,3,4,5].map(i => <div key={i} className="h-12 rounded bg-muted animate-pulse" />)}

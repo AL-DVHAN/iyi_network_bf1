@@ -71,14 +71,14 @@ export default function About() {
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
           {/* Story - BAKIM */}
-          <div className="rounded-lg border p-6" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="rounded-lg border p-6" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2 mb-4">
               <h2 className="text-lg font-bold" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.75 0.16 75)" }}>Hikayemiz</h2>
               <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded font-semibold" style={{ background: "oklch(0.65 0.15 50 / 0.2)", color: "oklch(0.72 0.15 50)", border: "1px solid oklch(0.65 0.15 50 / 0.3)" }}>
                 <Wrench size={10} /> BAKIMDA
               </span>
             </div>
-            <div className="flex items-center justify-center py-8 rounded-lg" style={{ background: "oklch(0.14 0.01 60)", border: "1px dashed oklch(0.30 0.02 60)" }}>
+            <div className="flex items-center justify-center py-8 rounded-lg" style={{ background: "var(--muted)", border: "1px dashed var(--border)" }}>
               <div className="text-center">
                 <Wrench size={28} className="mx-auto mb-2" style={{ color: "oklch(0.45 0.02 60)" }} />
                 <p className="text-sm text-muted-foreground">Bu bölüm yakında hazır olacak.</p>
@@ -87,11 +87,11 @@ export default function About() {
           </div>
 
           {/* Server Rules */}
-          <div className="rounded-lg border p-6" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="rounded-lg border p-6" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.75 0.16 75)" }}>Sunucu Kuralları</h2>
             <div className="space-y-3">
               {SERVER_RULES.map((rule, i) => (
-                <div key={i} className="flex items-start gap-3 p-3 rounded-lg" style={{ background: "oklch(0.13 0.01 60)" }}>
+                <div key={i} className="flex items-start gap-3 p-3 rounded-lg" style={{ background: "var(--muted)" }}>
                   <span className="w-6 h-6 rounded flex items-center justify-center text-xs font-bold shrink-0 mt-0.5" style={{ background: "oklch(0.72 0.14 75 / 0.2)", color: "oklch(0.75 0.16 75)" }}>{i + 1}</span>
                   <div>
                     <p className="text-sm font-semibold text-foreground mb-0.5">{rule.title}</p>
@@ -107,10 +107,10 @@ export default function About() {
             <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif" }}>Yetkililer</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               {TEAM_MEMBERS.map((member, i) => (
-                <div key={i} className="rounded-lg border p-4 flex items-start gap-3" style={{ background: "oklch(0.16 0.015 58)", borderColor: member.active ? "oklch(0.72 0.14 75 / 0.3)" : "oklch(0.25 0.02 60)" }}>
+                <div key={i} className="rounded-lg border p-4 flex items-start gap-3" style={{ background: "var(--card)", borderColor: member.active ? "oklch(0.72 0.14 75 / 0.3)" : "var(--border)" }}>
                   {member.active ? (
                     <>
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.60 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm shrink-0" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.60 0.12 70))", color: "var(--primary-foreground)" }}>
                         <Crown size={16} />
                       </div>
                       <div>
@@ -124,7 +124,7 @@ export default function About() {
                     </>
                   ) : (
                     <>
-                      <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ background: "oklch(0.20 0.02 60)", border: "2px dashed oklch(0.30 0.02 60)" }}>
+                      <div className="w-10 h-10 rounded-full flex items-center justify-center shrink-0" style={{ background: "var(--secondary)", border: "2px dashed var(--border)" }}>
                         <Wrench size={14} style={{ color: "oklch(0.40 0.02 60)" }} />
                       </div>
                       <div>
@@ -145,7 +145,7 @@ export default function About() {
         {/* Sidebar */}
         <div className="space-y-4">
           {/* Stats */}
-          <div className="rounded-lg border p-4" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="rounded-lg border p-4" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <h3 className="font-semibold text-sm mb-4">Klan İstatistikleri</h3>
             <div className="space-y-3">
               {[
@@ -177,13 +177,13 @@ export default function About() {
             <p className="text-xs text-muted-foreground mb-3 leading-relaxed">
               Klan üyeliği için Discord sunucumuza katıl ve başvuru formunu doldur.
             </p>
-            <Link href="/geri-bildirim" className="w-full flex items-center justify-center gap-2 py-2 rounded text-xs font-semibold no-underline" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.65 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
+            <Link href="/geri-bildirim" className="w-full flex items-center justify-center gap-2 py-2 rounded text-xs font-semibold no-underline" style={{ background: "linear-gradient(135deg, var(--primary), oklch(0.65 0.12 70))", color: "var(--primary-foreground)" }}>
               <MessageSquare size={13} /> Başvur
             </Link>
           </div>
 
           {/* Contact */}
-          <div className="rounded-lg border p-4" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+          <div className="rounded-lg border p-4" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <h3 className="font-semibold text-sm mb-3">İletişim</h3>
             <div className="space-y-2 text-xs text-muted-foreground">
               <a

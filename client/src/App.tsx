@@ -25,24 +25,32 @@ function Layout({ children }: { children: React.ReactNode }) {
       <main className="flex-1">
         {children}
       </main>
-      <footer className="border-t py-6 mt-12" style={{ borderColor: "oklch(0.22 0.02 60)", background: "oklch(0.13 0.015 58)" }}>
+      <footer className="border-t py-6 mt-12" style={{ borderColor: "var(--border)", background: "var(--card)" }}>
         <div className="container">
           <div className="flex flex-col md:flex-row items-center justify-between gap-4">
-            <div className="flex items-center gap-2">
-              <div className="w-6 h-6 rounded flex items-center justify-center text-xs font-bold" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.60 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
-                IYI
-              </div>
-              <span className="text-sm font-semibold" style={{ color: "oklch(0.75 0.16 75)", fontFamily: "'Oswald', sans-serif" }}>IYI NETWORK</span>
-              <span className="text-xs text-muted-foreground">Battlefield 1 Topluluk Portalı</span>
+            <div className="flex items-center gap-3">
+              <img
+                src="https://d2xsxph8kpxj0f.cloudfront.net/310519663449295263/Gmy9fZETeSxEKPMRqUqKxx/iyi_clan_logo_5a29267d.png"
+                alt="KAYI BOYU CLAN"
+                className="w-7 h-7 rounded-full object-contain"
+              />
+              <span className="text-sm font-semibold" style={{ color: "var(--primary)", fontFamily: "'Oswald', sans-serif" }}>KAYI BOYU CLAN</span>
             </div>
-            <div className="flex items-center gap-4 text-xs text-muted-foreground">
-              <span>© 2024 IYI Network</span>
+            <div className="text-center">
+              <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
+                Oyuncu verileri{" "}
+                <a href="https://gametools.network" target="_blank" rel="noopener noreferrer" className="hover:underline" style={{ color: "var(--primary)" }}>Gametools Network API</a>
+                {" "}tarafından sağlanmaktadır.
+              </p>
+            </div>
+            <div className="flex items-center gap-4 text-xs" style={{ color: "var(--muted-foreground)" }}>
+              <span>© 2025 KAYI BOYU CLAN</span>
               <span>•</span>
               <a href="/geri-bildirim" className="hover:text-foreground transition-colors no-underline">İletişim</a>
               <span>•</span>
               <a href="/ban-listesi" className="hover:text-foreground transition-colors no-underline">Ban Listesi</a>
               <span>•</span>
-              <a href="/destek" className="hover:text-foreground transition-colors no-underline" style={{ color: "oklch(0.72 0.14 75)" }}>Destekçi Ol</a>
+              <a href="/destek" className="hover:text-foreground transition-colors no-underline" style={{ color: "var(--primary)" }}>Destekçi Ol</a>
             </div>
           </div>
         </div>
