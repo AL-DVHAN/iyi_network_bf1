@@ -122,9 +122,12 @@ export default function Navbar() {
         <div className="flex items-center justify-between h-14 gap-4">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2 shrink-0 no-underline">
-            <div className="w-8 h-8 rounded flex items-center justify-center font-bold text-sm" style={{ background: "linear-gradient(135deg, oklch(0.72 0.14 75), oklch(0.60 0.12 70))", color: "oklch(0.10 0.01 60)" }}>
-              IYI
-            </div>
+            <img
+              src="https://d2xsxph8kpxj0f.cloudfront.net/310519663449295263/Gmy9fZETeSxEKPMRqUqKxx/iyi_clan_logo_5a29267d.png"
+              alt="IYI Network Logo"
+              className="w-9 h-9 rounded-full object-contain"
+              style={{ background: "transparent" }}
+            />
             <div className="hidden sm:block">
               <span className="font-bold text-sm tracking-wide" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.75 0.16 75)" }}>IYI NETWORK</span>
               <span className="text-xs text-muted-foreground ml-1.5 hidden md:inline">BF1</span>

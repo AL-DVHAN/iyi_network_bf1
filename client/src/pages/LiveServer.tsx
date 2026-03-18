@@ -11,22 +11,22 @@ const BF1_MAPS: Record<string, string> = {
   "Argonne Forest": "Argonne Ormanı",
   "Fao Fortress": "Fao Kalesi",
   "Monte Grappa": "Monte Grappa",
-  "Empire's Edge": "İmparatorluğun Sınırı",
+  "Empire's Edge": "İmparatorluğun Kıyısı",
   "Amiens": "Amiens",
   "Suez": "Süveyş",
   "St. Quentin Scar": "St. Quentin Yarası",
-  "Giant's Shadow": "Dev'in Gölgesi",
+  "Giant's Shadow": "Giant'ın Gölgesi",
   "Lupkow Pass": "Lupkow Geçidi",
   "Verdun Heights": "Verdun Tepeleri",
   "Prise de Tahure": "Tahure Kuşatması",
-  "Fort De Vaux": "Fort De Vaux",
+  "Fort De Vaux": "Vaux Kalesi",
   "Passchendaele": "Passchendaele",
   "Caporetto": "Caporetto",
   "Brusilov Keep": "Brusilov Kalesi",
   "Albion": "Albion",
   "River Somme": "Somme Nehri",
-  "Cape Helles": "Cape Helles",
-  "Achi Baba": "Achi Baba",
+  "Cape Helles": "Seddülbahir",
+  "Achi Baba": "Alçıtepe",
   "Rupture": "Kırılma",
   "Soissons": "Soissons",
   "Razor's Edge": "Bıçak Sırtı",
@@ -38,6 +38,42 @@ const BF1_MAPS: Record<string, string> = {
   "Nile Tidings": "Nil Haberleri",
   "Tirailleur": "Tirailleur",
   "Conquer Hell": "Cehennemi Fethet",
+  "Galicia": "Galiçya",
+  "Nivelle Nights": "Nivelle Geceleri",
+  "Kaiserschlacht": "Kaiserschlacht",
+  "Łódź": "Lodz",
+};
+
+const BF1_MODES: Record<string, string> = {
+  "Conquest": "Fetih",
+  "ConquestLarge0": "Fetih (Büyük)",
+  "ConquestSmall0": "Fetih (Küçük)",
+  "Rush0": "Saldırı",
+  "TeamDeathMatch0": "Takım Dövüşü",
+  "BreakthroughLarge0": "Kırılış (Büyük)",
+  "Breakthrough0": "Kırılış",
+  "AirAssault0": "Hava Saldırısı",
+  "Domination0": "Hakimiyet",
+  "SupremeCommander0": "Yüksek Komutan",
+  "ZoneControl0": "Bölge Kontrolü",
+  "Possession0": "Ele Geçirme",
+  "War Pigeons": "Savaş Güvercinleri",
+  "Operations": "Harekat",
+};
+
+const BF1_TEAMS: Record<string, string> = {
+  "German Empire": "Alman İmparatorluğu",
+  "Ottoman Empire": "Osmanlı İmparatorluğu",
+  "British Empire": "İngiliz İmparatorluğu",
+  "French Army": "Fransız Ordusu",
+  "US Army": "ABD Ordusu",
+  "Austro-Hungarian Empire": "Avusturya-Macaristan İmparatorluğu",
+  "Russian Empire": "Rus İmparatorluğu",
+  "Italian Army": "İtalyan Ordusu",
+  "Kingdom of Italy": "İtalya Krallığı",
+  "Kingdom of Bulgaria": "Bulgaristan Krallığı",
+  "Harlem Hellfighters": "Harlem Cehennem Askerleri",
+  "Royal Marines": "Kraliyet Denizcileri",
 };
 
 interface ServerSettings {
@@ -201,7 +237,7 @@ export default function LiveServer() {
                       <img src={team.image} alt={team.name} className="w-8 h-8 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                     )}
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs text-muted-foreground truncate">{team.name}</p>
+                      <p className="text-xs text-muted-foreground truncate">{BF1_TEAMS[team.name || ""] || team.name || "Takım"}</p>
                       {team.score !== null && team.score !== undefined ? (
                         <p className="text-xl font-bold" style={{ fontFamily: "'Rajdhani', sans-serif", color: i === 0 ? "oklch(0.65 0.12 200)" : "oklch(0.70 0.15 30)" }}>
                           {team.score}
@@ -289,7 +325,7 @@ export default function LiveServer() {
                     )}
                     <div className="p-2">
                       <p className="text-xs font-medium text-foreground truncate">{BF1_MAPS[item.mapname || ""] || item.mapname || "?"}</p>
-                      <p className="text-xs text-muted-foreground">{item.mode || ""}</p>
+                      <p className="text-xs text-muted-foreground">{BF1_MODES[item.mode || ""] || item.mode || ""}</p>
                     </div>
                   </div>
                 ))}

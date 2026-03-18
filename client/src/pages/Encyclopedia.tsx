@@ -208,23 +208,35 @@ export default function Encyclopedia() {
 
               {/* Stats */}
               <div className="p-6">
-                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">İstatistikler</h3>
+                <h3 className="text-sm font-semibold text-muted-foreground uppercase tracking-wider mb-4">Referans İstatistikler</h3>
+                <p className="text-xs text-muted-foreground mb-4 -mt-2">
+                  Bu değerler klan veri tabanından derlenen referans istatistiklerdir.
+                </p>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
                   {selectedWeapon && (
                     <>
-                      <StatCard label="Toplam Kill" value={formatNumber(selectedWeapon.kills || 0)} icon={<Crosshair size={14} />} />
-                      <StatCard label="İsabet Oranı" value={selectedWeapon.accuracy || "—"} icon={<Target size={14} />} />
-                      <StatCard label="Kullanım Süresi" value={formatPlaytime(selectedWeapon.timeEquipped || 0)} icon={<Clock size={14} />} />
+                      {(selectedWeapon.kills || 0) > 0 && <StatCard label="Referans Kill" value={formatNumber(selectedWeapon.kills || 0)} icon={<Crosshair size={14} />} />}
+                      {selectedWeapon.accuracy && <StatCard label="Ortalama İsabet" value={selectedWeapon.accuracy} icon={<Target size={14} />} />}
+                      {(selectedWeapon.timeEquipped || 0) > 0 && <StatCard label="Referans Süre" value={formatPlaytime(selectedWeapon.timeEquipped || 0)} icon={<Clock size={14} />} />}
+                      {selectedWeapon.type && <StatCard label="Silah Tipi" value={selectedWeapon.type} icon={<BookOpen size={14} />} />}
+                      {selectedWeapon.class && <StatCard label="Sınıf" value={selectedWeapon.class} icon={<Target size={14} />} />}
                     </>
                   )}
                   {selectedVehicle && (
                     <>
-                      <StatCard label="Toplam Kill" value={formatNumber(selectedVehicle.kills || 0)} icon={<Crosshair size={14} />} />
-                      <StatCard label="Oynama Süresi" value={`${selectedVehicle.timePlayed || 0} Saat`} icon={<Clock size={14} />} />
+                      {(selectedVehicle.kills || 0) > 0 && <StatCard label="Referans Kill" value={formatNumber(selectedVehicle.kills || 0)} icon={<Crosshair size={14} />} />}
+                      {(selectedVehicle.timePlayed || 0) > 0 && <StatCard label="Referans Süre" value={`${selectedVehicle.timePlayed} Saat`} icon={<Clock size={14} />} />}
                       <StatCard label="Kategori" value={selectedVehicle.category} icon={<Truck size={14} />} />
                     </>
                   )}
                 </div>
+                {/* Description */}
+                {(selectedWeapon?.description || selectedVehicle?.description) && (
+                  <div className="mb-6 p-3 rounded border" style={{ background: "oklch(0.14 0.01 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+                    <p className="text-xs font-semibold text-muted-foreground uppercase tracking-wider mb-2">Açıklama</p>
+                    <p className="text-sm text-foreground leading-relaxed">{selectedWeapon?.description || selectedVehicle?.description}</p>
+                  </div>
+                )}
 
                 {/* Pro Tips */}
                 <div>

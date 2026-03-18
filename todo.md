@@ -62,3 +62,10 @@
 - [x] Silah tablosuna sıralama (Kill, İsabet, Süre, HS Oranı, Kill/dk) ekle
 - [x] Sınıf istatistikleri tablosuna sıralama + HS oranı + KPM ekle
 - [x] Canlı Sunucu skorunu API'den gerçek zamanlı çek (sabit 1970-1300 değil)
+
+## 3. Tur İstekler
+- [x] Harita isimlerini doğru Türkçeleştir (Achi Baba→Alçıtepe, Fort De Vaux→Vaux Kalesi, Cape Helles→Seddülbahir, Galicia→Galiçya, Giant's Shadow→Giant'ın Gölgesi, Empire's Edge→İmparatorluğun Kıyısı, Lupkow Pass→Lupkow Geçidi, Nivelle Nights→Nivelle Geceleri)
+- [x] Conquest→Fetih, German Empire→Alman İmparatorluğu Türkçeleştirme
+- [x] Sol üst IYI ikonunu klan logosuyla değiştir
+- [x] Ansiklopedi silah verisini düzelt - tüm silahlar gösterilmeli (247 silah, 44 araç)
+- [x] Silah detay kartındaki istatistikleri düzelt (“Referans İstatistikler” başlığı + açıklama eklendi)
