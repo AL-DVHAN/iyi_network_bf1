@@ -1,37 +1,200 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useMemo } from "react";
 import { useSearch, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { normalizeTurkish, secondsToHoursCeil, formatNumber, formatKD } from "@/lib/utils";
-import { Search, User, Target, Clock, TrendingUp, Crosshair, Shield, Award, ChevronRight, AlertCircle } from "lucide-react";
+import { secondsToHoursCeil, formatNumber, formatKD } from "@/lib/utils";
+import {
+  Search, User, Target, Clock, TrendingUp, Crosshair, Shield,
+  Award, AlertCircle, ChevronUp, ChevronDown, ChevronsUpDown
+} from "lucide-react";
 import { Link } from "wouter";
 
-interface PlayerStats {
-  userName?: string;
-  rank?: number;
-  rankImg?: string;
-  avatar?: string;
-  kills?: number;
-  deaths?: number;
-  kdr?: number;
-  kpm?: number;
-  spm?: number;
-  accuracy?: number;
-  headshots?: number;
-  headshotsPercent?: number;
-  revives?: number;
-  dogtagsTaken?: number;
-  longestHeadshot?: number;
-  highestKillStreak?: number;
-  timePlayed?: number;
-  wins?: number;
-  losses?: number;
-  infantryKills?: number;
-  vehicleKills?: number;
-  weapons?: Array<{ name: string; kills: number; accuracy: number; timeEquipped: number; image: string; type: string }>;
-  vehicles?: Array<{ vehicleName: string; kills: number; timePlayed: number; image: string }>;
-  classes?: Record<string, { kills: number; timePlayed: number; kdr: number; image?: string }>;
+// ─── Gametools API field mapping ──────────────────────────────────────────────
+// API returns: secondsPlayed (number), killDeath, killsPerMinute, scorePerMinute,
+// accuracy ("16.48%"), headshots ("5.87%"), longestHeadShot, highestKillStreak,
+// loses (not losses), weapons[].weaponName, weapons[].killsPerMinute,
+// weapons[].headshots ("0.0%"), weapons[].timeEquipped (seconds),
+// vehicles[].timeIn (seconds), classes[] array with className/kpm/secondsPlayed
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+type RawApiData = Record<string, any>;
+
+interface ParsedStats {
+  userName: string;
+  rank: number;
+  rankImg: string;
+  rankName: string;
+  avatar: string;
+  kills: number;
+  deaths: number;
+  kdr: number;
+  kpm: number;
+  spm: number;
+  accuracyPct: number;       // e.g. 16.48
+  headshotsPct: number;      // e.g. 5.87
+  headShotsCount: number;
+  revives: number;
+  dogtagsTaken: number;
+  longestHeadshot: number;
+  highestKillStreak: number;
+  timePlayed: string;        // human readable
+  secondsPlayed: number;
+  wins: number;
+  losses: number;
+  roundsPlayed: number;
+  infantryKdr: number;
+  infantryKpm: number;
+  bestClass: string;
+  weapons: ParsedWeapon[];
+  vehicles: ParsedVehicle[];
+  classes: ParsedClass[];
 }
 
+interface ParsedWeapon {
+  name: string;
+  type: string;
+  image: string;
+  kills: number;
+  kpm: number;
+  headshotPct: number;       // e.g. 24.1
+  accuracy: number;          // e.g. 24.1
+  timeEquippedSec: number;
+  shotsFired: number;
+  shotsHit: number;
+}
+
+interface ParsedVehicle {
+  name: string;
+  type: string;
+  image: string;
+  kills: number;
+  kpm: number;
+  destroyed: number;
+  timeInSec: number;
+}
+
+interface ParsedClass {
+  name: string;
+  image: string;
+  score: number;
+  kills: number;
+  kpm: number;
+  secondsPlayed: number;
+}
+
+// Parse percent string like "16.48%" → 16.48
+function parsePct(val: unknown): number {
+  if (typeof val === "number") return val;
+  if (typeof val === "string") return parseFloat(val.replace("%", "")) || 0;
+  return 0;
+}
+
+function parseNum(val: unknown): number {
+  if (typeof val === "number") return val;
+  if (typeof val === "string") return parseFloat(val) || 0;
+  return 0;
+}
+
+function parseRawData(raw: RawApiData): ParsedStats {
+  const weapons: ParsedWeapon[] = (raw.weapons || []).map((w: RawApiData) => ({
+    name: w.weaponName || w.name || "?",
+    type: w.type || "",
+    image: w.image || "",
+    kills: parseNum(w.kills),
+    kpm: parseNum(w.killsPerMinute),
+    headshotPct: parsePct(w.headshots),
+    accuracy: parsePct(w.accuracy),
+    timeEquippedSec: parseNum(w.timeEquipped),
+    shotsFired: parseNum(w.shotsFired),
+    shotsHit: parseNum(w.shotsHit),
+  }));
+
+  const vehicles: ParsedVehicle[] = (raw.vehicles || []).map((v: RawApiData) => ({
+    name: v.vehicleName || v.name || "?",
+    type: v.type || "",
+    image: v.image || "",
+    kills: parseNum(v.kills),
+    kpm: parseNum(v.killsPerMinute),
+    destroyed: parseNum(v.destroyed),
+    timeInSec: parseNum(v.timeIn),  // API returns seconds
+  }));
+
+  // classes is an array: [{className, score, kills, kpm, image, timePlayed, secondsPlayed}]
+  const classes: ParsedClass[] = (Array.isArray(raw.classes) ? raw.classes : []).map((c: RawApiData) => ({
+    name: c.className || "?",
+    image: c.image || c.altImage || "",
+    score: parseNum(c.score),
+    kills: parseNum(c.kills),
+    kpm: parseNum(c.kpm),
+    secondsPlayed: parseNum(c.secondsPlayed),
+  }));
+
+  return {
+    userName: raw.userName || "",
+    rank: parseNum(raw.rank),
+    rankImg: raw.rankImg || "",
+    rankName: raw.rankName || "",
+    avatar: raw.avatar || "",
+    kills: parseNum(raw.kills),
+    deaths: parseNum(raw.deaths),
+    kdr: parseNum(raw.killDeath),
+    kpm: parseNum(raw.killsPerMinute),
+    spm: parseNum(raw.scorePerMinute),
+    accuracyPct: parsePct(raw.accuracy),
+    headshotsPct: parsePct(raw.headshots),
+    headShotsCount: parseNum(raw.headShots),
+    revives: parseNum(raw.revives),
+    dogtagsTaken: parseNum(raw.dogtagsTaken),
+    longestHeadshot: parseNum(raw.longestHeadShot),
+    highestKillStreak: parseNum(raw.highestKillStreak),
+    timePlayed: raw.timePlayed || "",
+    secondsPlayed: parseNum(raw.secondsPlayed),
+    wins: parseNum(raw.wins),
+    losses: parseNum(raw.loses),  // API uses "loses" not "losses"
+    roundsPlayed: parseNum(raw.roundsPlayed),
+    infantryKdr: parseNum(raw.infantryKillDeath),
+    infantryKpm: parseNum(raw.infantryKillsPerMinute),
+    bestClass: raw.bestClass || "",
+    weapons,
+    vehicles,
+    classes,
+  };
+}
+
+// ─── Sortable table hook ──────────────────────────────────────────────────────
+type SortDir = "asc" | "desc" | null;
+function useSortable<T>(items: T[], defaultKey: keyof T) {
+  const [sortKey, setSortKey] = useState<keyof T>(defaultKey);
+  const [sortDir, setSortDir] = useState<SortDir>("desc");
+
+  const sorted = useMemo(() => {
+    if (!sortDir) return items;
+    return [...items].sort((a, b) => {
+      const av = a[sortKey] as number;
+      const bv = b[sortKey] as number;
+      return sortDir === "desc" ? bv - av : av - bv;
+    });
+  }, [items, sortKey, sortDir]);
+
+  const toggle = (key: keyof T) => {
+    if (sortKey === key) {
+      setSortDir(d => d === "desc" ? "asc" : d === "asc" ? null : "desc");
+    } else {
+      setSortKey(key);
+      setSortDir("desc");
+    }
+  };
+
+  const SortIcon = ({ k }: { k: keyof T }) => {
+    if (sortKey !== k) return <ChevronsUpDown size={11} className="opacity-40 inline ml-0.5" />;
+    if (sortDir === "desc") return <ChevronDown size={11} className="inline ml-0.5" style={{ color: "oklch(0.72 0.14 75)" }} />;
+    if (sortDir === "asc") return <ChevronUp size={11} className="inline ml-0.5" style={{ color: "oklch(0.72 0.14 75)" }} />;
+    return <ChevronsUpDown size={11} className="opacity-40 inline ml-0.5" />;
+  };
+
+  return { sorted, toggle, SortIcon, sortKey, sortDir };
+}
+
+// ─── Main Component ───────────────────────────────────────────────────────────
 export default function Stats() {
   const searchStr = useSearch();
   const [, navigate] = useLocation();
@@ -59,46 +222,11 @@ export default function Stats() {
     navigate(`/istatistik?player=${encodeURIComponent(normalized)}`);
   };
 
-  const rawData = statsQuery.data?.data as PlayerStats | undefined;
-
-  // Safely parse all numeric fields - Gametools API sometimes returns strings
-  const data: PlayerStats | undefined = rawData ? {
-    ...rawData,
-    kdr: parseFloat(String(rawData.kdr ?? 0)) || 0,
-    kpm: parseFloat(String(rawData.kpm ?? 0)) || 0,
-    spm: parseFloat(String(rawData.spm ?? 0)) || 0,
-    accuracy: parseFloat(String(rawData.accuracy ?? 0)) || 0,
-    headshotsPercent: parseFloat(String(rawData.headshotsPercent ?? 0)) || 0,
-    kills: parseInt(String(rawData.kills ?? 0)) || 0,
-    deaths: parseInt(String(rawData.deaths ?? 0)) || 0,
-    revives: parseInt(String(rawData.revives ?? 0)) || 0,
-    dogtagsTaken: parseInt(String(rawData.dogtagsTaken ?? 0)) || 0,
-    longestHeadshot: parseFloat(String(rawData.longestHeadshot ?? 0)) || 0,
-    highestKillStreak: parseInt(String(rawData.highestKillStreak ?? 0)) || 0,
-    wins: parseInt(String(rawData.wins ?? 0)) || 0,
-    losses: parseInt(String(rawData.losses ?? 0)) || 0,
-    timePlayed: parseFloat(String(rawData.timePlayed ?? 0)) || 0,
-    rank: parseInt(String(rawData.rank ?? 0)) || 0,
-    weapons: rawData.weapons?.map(w => ({
-      ...w,
-      kills: parseInt(String(w.kills ?? 0)) || 0,
-      accuracy: parseFloat(String(w.accuracy ?? 0)) || 0,
-      timeEquipped: parseFloat(String(w.timeEquipped ?? 0)) || 0,
-    })),
-    vehicles: rawData.vehicles?.map(v => ({
-      ...v,
-      kills: parseInt(String(v.kills ?? 0)) || 0,
-      timePlayed: parseFloat(String(v.timePlayed ?? 0)) || 0,
-    })),
-    classes: rawData.classes ? Object.fromEntries(
-      Object.entries(rawData.classes).map(([k, v]) => [k, {
-        ...v,
-        kills: parseInt(String(v.kills ?? 0)) || 0,
-        kdr: parseFloat(String(v.kdr ?? 0)) || 0,
-        timePlayed: parseFloat(String(v.timePlayed ?? 0)) || 0,
-      }])
-    ) : undefined,
-  } : undefined;
+  const data: ParsedStats | undefined = useMemo(() => {
+    const raw = statsQuery.data?.data as RawApiData | undefined;
+    if (!raw) return undefined;
+    return parseRawData(raw);
+  }, [statsQuery.data]);
 
   return (
     <div className="container py-8">
@@ -182,15 +310,21 @@ export default function Stats() {
                 <div className="flex-1">
                   <div className="flex items-center gap-2 mb-1">
                     <h2 className="text-2xl font-bold text-foreground" style={{ fontFamily: "'Oswald', sans-serif" }}>{data.userName || searchedPlayer}</h2>
-                  </div>
-                  <div className="flex items-center gap-3 text-sm text-muted-foreground">
-                    {data.rank && <span className="flex items-center gap-1"><Award size={13} /> Rank {data.rank}</span>}
-                    {data.timePlayed !== undefined && (
-                      <span className="flex items-center gap-1">
-                        <Clock size={13} />
-                        {secondsToHoursCeil(data.timePlayed)} Saat
+                    {data.bestClass && (
+                      <span className="text-xs px-2 py-0.5 rounded" style={{ background: "oklch(0.72 0.14 75 / 0.15)", color: "oklch(0.72 0.14 75)" }}>
+                        {data.bestClass}
                       </span>
                     )}
+                  </div>
+                  <div className="flex flex-wrap items-center gap-3 text-sm text-muted-foreground">
+                    {data.rank > 0 && <span className="flex items-center gap-1"><Award size={13} /> {data.rankName || `Rank ${data.rank}`}</span>}
+                    {data.secondsPlayed > 0 && (
+                      <span className="flex items-center gap-1">
+                        <Clock size={13} />
+                        {secondsToHoursCeil(data.secondsPlayed)} Saat
+                      </span>
+                    )}
+                    {data.roundsPlayed > 0 && <span>{formatNumber(data.roundsPlayed)} Tur</span>}
                     <span className="text-xs px-1.5 py-0.5 rounded" style={{ background: "oklch(0.22 0.02 60)" }}>
                       {platform.toUpperCase()}
                     </span>
@@ -202,21 +336,45 @@ export default function Stats() {
 
           {/* Core Stats */}
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            <StatWidget label="K/D Oranı" value={data.kdr?.toFixed(2) || formatKD(data.kills || 0, data.deaths || 0)} sub={`${formatNumber(data.kills || 0)} Kill / ${formatNumber(data.deaths || 0)} Ölüm`} color="oklch(0.72 0.14 75)" icon={<Crosshair size={16} />} />
-            <StatWidget label="KPM" value={(data.kpm || 0).toFixed(2)} sub="Dakika Başına Kill" color="oklch(0.65 0.12 200)" icon={<TrendingUp size={16} />} />
-            <StatWidget label="SPM" value={formatNumber(Math.round(data.spm || 0))} sub="Dakika Başına Skor" color="oklch(0.60 0.15 145)" icon={<Award size={16} />} />
-            <StatWidget label="İsabet Oranı" value={`${(data.accuracy || 0).toFixed(1)}%`} sub={`${(data.headshotsPercent || 0).toFixed(1)}% Kafa Vuruşu`} color="oklch(0.70 0.15 30)" icon={<Target size={16} />} />
+            <StatWidget
+              label="K/D Oranı"
+              value={data.kdr > 0 ? data.kdr.toFixed(2) : formatKD(data.kills, data.deaths)}
+              sub={`${formatNumber(data.kills)} Kill / ${formatNumber(data.deaths)} Ölüm`}
+              color="oklch(0.72 0.14 75)"
+              icon={<Crosshair size={16} />}
+            />
+            <StatWidget
+              label="KPM"
+              value={data.kpm.toFixed(2)}
+              sub={`Piyade KPM: ${data.infantryKpm.toFixed(2)}`}
+              color="oklch(0.65 0.12 200)"
+              icon={<TrendingUp size={16} />}
+            />
+            <StatWidget
+              label="SPM"
+              value={formatNumber(Math.round(data.spm))}
+              sub="Dakika Başına Skor"
+              color="oklch(0.60 0.15 145)"
+              icon={<Award size={16} />}
+            />
+            <StatWidget
+              label="İsabet Oranı"
+              value={`${data.accuracyPct.toFixed(1)}%`}
+              sub={`${data.headshotsPct.toFixed(1)}% Kafa Vuruşu`}
+              color="oklch(0.70 0.15 30)"
+              icon={<Target size={16} />}
+            />
           </div>
 
           {/* Secondary Stats */}
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-3">
             {[
-              { label: "Canlandırma", value: formatNumber(data.revives || 0) },
-              { label: "Künyeler", value: formatNumber(data.dogtagsTaken || 0) },
-              { label: "En Uzun Atış", value: `${data.longestHeadshot || 0}m` },
-              { label: "En Uzun Seri", value: formatNumber(data.highestKillStreak || 0) },
-              { label: "Galibiyet", value: formatNumber(data.wins || 0) },
-              { label: "Mağlubiyet", value: formatNumber(data.losses || 0) },
+              { label: "Canlandırma", value: formatNumber(data.revives) },
+              { label: "Künyeler", value: formatNumber(data.dogtagsTaken) },
+              { label: "En Uzun Atış", value: `${data.longestHeadshot.toFixed(0)}m` },
+              { label: "En Uzun Seri", value: formatNumber(data.highestKillStreak) },
+              { label: "Galibiyet", value: formatNumber(data.wins) },
+              { label: "Mağlubiyet", value: formatNumber(data.losses) },
             ].map((s, i) => (
               <div key={i} className="p-3 rounded border text-center" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
                 <p className="text-xs text-muted-foreground mb-1">{s.label}</p>
@@ -226,101 +384,18 @@ export default function Stats() {
           </div>
 
           {/* Top Weapons */}
-          {data.weapons && data.weapons.length > 0 && (
-            <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-              <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
-                <h3 className="font-semibold text-sm">En Çok Kullanılan Silahlar</h3>
-                <Link href="/ansiklopedi" className="text-xs no-underline" style={{ color: "oklch(0.72 0.14 75)" }}>Ansiklopedi →</Link>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="table-bf1">
-                  <thead>
-                    <tr>
-                      <th>Silah</th>
-                      <th>Kill</th>
-                      <th>İsabet</th>
-                      <th>Süre</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.weapons.slice(0, 8).map((w, i) => (
-                      <tr key={i}>
-                        <td>
-                          <div className="flex items-center gap-2">
-                            {w.image && <img src={w.image} alt={w.name} className="w-10 h-6 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
-                            <div>
-                              <p className="text-sm font-medium text-foreground">{w.name}</p>
-                              <p className="text-xs text-muted-foreground">{w.type}</p>
-                            </div>
-                          </div>
-                        </td>
-                        <td className="font-semibold" style={{ color: "oklch(0.75 0.16 75)" }}>{formatNumber(w.kills)}</td>
-                        <td className="text-muted-foreground">{(w.accuracy || 0).toFixed(1)}%</td>
-                        <td className="text-muted-foreground">{secondsToHoursCeil(w.timeEquipped)} Saat</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          {data.weapons.length > 0 && (
+            <WeaponsTable weapons={data.weapons} />
           )}
 
           {/* Top Vehicles */}
-          {data.vehicles && data.vehicles.length > 0 && (
-            <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-              <div className="px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
-                <h3 className="font-semibold text-sm">En Çok Kullanılan Araçlar</h3>
-              </div>
-              <div className="overflow-x-auto">
-                <table className="table-bf1">
-                  <thead>
-                    <tr>
-                      <th>Araç</th>
-                      <th>Kill</th>
-                      <th>Süre</th>
-                    </tr>
-                  </thead>
-                  <tbody>
-                    {data.vehicles.slice(0, 6).map((v, i) => (
-                      <tr key={i}>
-                        <td>
-                          <div className="flex items-center gap-2">
-                            {v.image && <img src={v.image} alt={v.vehicleName} className="w-10 h-6 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />}
-                            <p className="text-sm font-medium text-foreground">{v.vehicleName}</p>
-                          </div>
-                        </td>
-                        <td className="font-semibold" style={{ color: "oklch(0.75 0.16 75)" }}>{formatNumber(v.kills)}</td>
-                        <td className="text-muted-foreground">{secondsToHoursCeil(v.timePlayed * 60)} Saat</td>
-                      </tr>
-                    ))}
-                  </tbody>
-                </table>
-              </div>
-            </div>
+          {data.vehicles.length > 0 && (
+            <VehiclesTable vehicles={data.vehicles} />
           )}
 
           {/* Classes */}
-          {data.classes && Object.keys(data.classes).length > 0 && (
-            <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-              <div className="px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
-                <h3 className="font-semibold text-sm">Sınıf İstatistikleri</h3>
-              </div>
-              <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 p-4">
-                {Object.entries(data.classes).map(([cls, stats]) => (
-                  <div key={cls} className="p-3 rounded border" style={{ background: "oklch(0.14 0.01 58)", borderColor: "oklch(0.25 0.02 60)" }}>
-                    <div className="flex items-center gap-2 mb-2">
-                      {stats.image && <img src={stats.image} alt={cls} className="w-6 h-6 object-contain" />}
-                      <span className="text-xs font-semibold text-foreground">{cls}</span>
-                    </div>
-                    <div className="space-y-1 text-xs text-muted-foreground">
-                      <div className="flex justify-between"><span>Kill</span><span className="text-foreground font-medium">{formatNumber(stats.kills)}</span></div>
-                      <div className="flex justify-between"><span>K/D</span><span className="text-foreground font-medium">{(stats.kdr || 0).toFixed(2)}</span></div>
-                      <div className="flex justify-between"><span>Süre</span><span className="text-foreground font-medium">{secondsToHoursCeil(stats.timePlayed)} Saat</span></div>
-                    </div>
-                  </div>
-                ))}
-              </div>
-            </div>
+          {data.classes.length > 0 && (
+            <ClassesTable classes={data.classes} />
           )}
         </div>
       )}
@@ -345,6 +420,174 @@ export default function Stats() {
   );
 }
 
+// ─── Weapons Table ────────────────────────────────────────────────────────────
+function WeaponsTable({ weapons }: { weapons: ParsedWeapon[] }) {
+  const { sorted, toggle, SortIcon } = useSortable(weapons, "kills");
+
+  return (
+    <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+      <div className="flex items-center justify-between px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+        <h3 className="font-semibold text-sm">En Çok Kullanılan Silahlar</h3>
+        <Link href="/ansiklopedi" className="text-xs no-underline" style={{ color: "oklch(0.72 0.14 75)" }}>Ansiklopedi →</Link>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="table-bf1">
+          <thead>
+            <tr>
+              <th>Silah</th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("kills")}>
+                Kill <SortIcon k="kills" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("kpm")}>
+                Kill/dk <SortIcon k="kpm" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("accuracy")}>
+                İsabet <SortIcon k="accuracy" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("headshotPct")}>
+                HS Oranı <SortIcon k="headshotPct" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("timeEquippedSec")}>
+                Süre <SortIcon k="timeEquippedSec" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.slice(0, 10).map((w, i) => (
+              <tr key={i}>
+                <td>
+                  <div className="flex items-center gap-2">
+                    {w.image && (
+                      <img src={w.image} alt={w.name} className="w-12 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                    )}
+                    <div>
+                      <p className="text-sm font-medium text-foreground">{w.name}</p>
+                      <p className="text-xs text-muted-foreground">{w.type}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="font-semibold" style={{ color: "oklch(0.75 0.16 75)" }}>{formatNumber(w.kills)}</td>
+                <td className="text-muted-foreground">{w.kpm.toFixed(2)}</td>
+                <td className="text-muted-foreground">{w.accuracy.toFixed(1)}%</td>
+                <td className="text-muted-foreground">{w.headshotPct.toFixed(1)}%</td>
+                <td className="text-muted-foreground">{secondsToHoursCeil(w.timeEquippedSec)} Saat</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// ─── Vehicles Table ───────────────────────────────────────────────────────────
+function VehiclesTable({ vehicles }: { vehicles: ParsedVehicle[] }) {
+  const { sorted, toggle, SortIcon } = useSortable(vehicles, "kills");
+
+  return (
+    <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+      <div className="px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+        <h3 className="font-semibold text-sm">Araç İstatistikleri</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="table-bf1">
+          <thead>
+            <tr>
+              <th>Araç</th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("kills")}>
+                Kill <SortIcon k="kills" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("kpm")}>
+                Kill/dk <SortIcon k="kpm" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("destroyed")}>
+                Tahrip <SortIcon k="destroyed" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("timeInSec")}>
+                Süre <SortIcon k="timeInSec" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.slice(0, 8).map((v, i) => (
+              <tr key={i}>
+                <td>
+                  <div className="flex items-center gap-2">
+                    {v.image && (
+                      <img src={v.image} alt={v.name} className="w-12 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                    )}
+                    <div>
+                      <p className="text-sm font-medium text-foreground">{v.name}</p>
+                      <p className="text-xs text-muted-foreground">{v.type}</p>
+                    </div>
+                  </div>
+                </td>
+                <td className="font-semibold" style={{ color: "oklch(0.75 0.16 75)" }}>{formatNumber(v.kills)}</td>
+                <td className="text-muted-foreground">{v.kpm.toFixed(2)}</td>
+                <td className="text-muted-foreground">{formatNumber(v.destroyed)}</td>
+                <td className="text-muted-foreground">{secondsToHoursCeil(v.timeInSec)} Saat</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// ─── Classes Table ────────────────────────────────────────────────────────────
+function ClassesTable({ classes }: { classes: ParsedClass[] }) {
+  const { sorted, toggle, SortIcon } = useSortable(classes, "kills");
+
+  return (
+    <div className="rounded-lg border overflow-hidden" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>
+      <div className="px-4 py-3 border-b" style={{ borderColor: "oklch(0.22 0.02 60)" }}>
+        <h3 className="font-semibold text-sm">Sınıf İstatistikleri</h3>
+      </div>
+      <div className="overflow-x-auto">
+        <table className="table-bf1">
+          <thead>
+            <tr>
+              <th>Sınıf</th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("kills")}>
+                Kill <SortIcon k="kills" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("kpm")}>
+                KPM <SortIcon k="kpm" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("score")}>
+                Skor <SortIcon k="score" />
+              </th>
+              <th className="cursor-pointer select-none whitespace-nowrap" onClick={() => toggle("secondsPlayed")}>
+                Süre <SortIcon k="secondsPlayed" />
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {sorted.map((c, i) => (
+              <tr key={i}>
+                <td>
+                  <div className="flex items-center gap-2">
+                    {c.image && (
+                      <img src={c.image} alt={c.name} className="w-7 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                    )}
+                    <span className="text-sm font-medium text-foreground">{c.name}</span>
+                  </div>
+                </td>
+                <td className="font-semibold" style={{ color: "oklch(0.75 0.16 75)" }}>{formatNumber(c.kills)}</td>
+                <td className="text-muted-foreground">{c.kpm.toFixed(2)}</td>
+                <td className="text-muted-foreground">{formatNumber(c.score)}</td>
+                <td className="text-muted-foreground">{secondsToHoursCeil(c.secondsPlayed)} Saat</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </div>
+  );
+}
+
+// ─── Stat Widget ──────────────────────────────────────────────────────────────
 function StatWidget({ label, value, sub, color, icon }: { label: string; value: string; sub: string; color: string; icon: React.ReactNode }) {
   return (
     <div className="p-4 rounded-lg border" style={{ background: "oklch(0.16 0.015 58)", borderColor: "oklch(0.25 0.02 60)" }}>

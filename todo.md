@@ -55,3 +55,10 @@
 
 ## Hata Düzeltmeleri
 - [x] Stats sayfası: accuracy.toFixed is not a function hatası - API'den string gelen sayısal değerleri parseFloat ile parse et
+
+## Yeni İstekler (2. Tur)
+- [x] Gametools API yanıt alanlarını doğru eşleştir (timePlayed, kdr, kpm, spm, accuracy, headshotsPercent, longestHeadshot, highestKillStreak)
+- [x] Oynama süresi hesabını düzelt (API saniye mi dakika mı veriyor kontrol et)
+- [x] Silah tablosuna sıralama (Kill, İsabet, Süre, HS Oranı, Kill/dk) ekle
+- [x] Sınıf istatistikleri tablosuna sıralama + HS oranı + KPM ekle
+- [x] Canlı Sunucu skorunu API'den gerçek zamanlı çek (sabit 1970-1300 değil)

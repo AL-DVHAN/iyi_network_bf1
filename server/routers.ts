@@ -25,10 +25,29 @@ async function fetchPlayerStats(name: string, platform = "pc") {
 }
 
 async function fetchServerStats() {
-  const url = `https://api.gametools.network/bf1/servers/?name=%5BIYI%5D%20ALL%20MAP%20200DMG%2FCQ&platform=pc&limit=1`;
+  // Search for IYI server
+  const searchUrl = `https://api.gametools.network/bf1/servers/?name=%5BIYI%5D&platform=pc&lang=en-us&limit=5`;
   try {
-    const res = await axios.get(url, { timeout: 10000, headers: { "User-Agent": "IYI-Network/1.0" } });
-    return res.data;
+    const res = await axios.get(searchUrl, { timeout: 10000, headers: { "User-Agent": "IYI-Network/1.0" } });
+    const servers = res.data?.servers || [];
+    // Find the IYI ALL MAP server
+    const server = servers.find((s: Record<string, unknown>) =>
+      typeof s.prefix === 'string' && s.prefix.includes('IYI')
+    ) || servers[0];
+    if (!server) return null;
+
+    // Try to get detailed server info (owner, settings, rotation)
+    let detailed = null;
+    if (server.gameId) {
+      try {
+        const detailRes = await axios.get(
+          `https://api.gametools.network/bf1/detailedserver/?gameid=${server.gameId}&platform=pc&lang=en-us`,
+          { timeout: 8000, headers: { "User-Agent": "IYI-Network/1.0" } }
+        );
+        detailed = detailRes.data;
+      } catch { /* ignore */ }
+    }
+    return { server, detailed };
   } catch {
     return null;
   }
@@ -87,44 +106,84 @@ export const appRouter = router({
       const db = await getDb();
       // Try to fetch from Gametools API
       const apiData = await fetchServerStats();
-      if (apiData && apiData.servers && apiData.servers.length > 0) {
-        const s = apiData.servers[0];
+      if (apiData && apiData.server) {
+        const s = apiData.server;
+        const d = apiData.detailed;
+        // teams is an object: { teamOne: {name, key, image}, teamTwo: {name, key, image} }
+        const teams = s.teams || {};
+        const teamOne = teams.teamOne || {};
+        const teamTwo = teams.teamTwo || {};
+        // Gametools API does NOT provide live ticket scores - only available in active games
+        // We show null scores when server is empty, so UI can display "Oyun aktif değil"
         const statsData = {
-          serverName: s.prefix || "[IYI] ALL MAP 200DMG/CQ",
-          currentMap: s.currentMap || "Bilinmiyor",
-          gameMode: s.mode || "CQ",
-          playerCount: s.playerAmount || 0,
-          maxPlayers: s.maxPlayers || 64,
-          queueCount: s.inQue || 0,
-          team1Score: s.teams?.[0]?.score || 1970,
-          team2Score: s.teams?.[1]?.score || 1300,
-          team1Name: s.teams?.[0]?.name || "Takım 1",
-          team2Name: s.teams?.[1]?.name || "Takım 2",
-          hasAdmin: false,
-          activeAdmin: null as string | null,
-          mapImage: s.url || null,
+          serverName: (s.prefix || "[IYI] ALL MAP 200DMG/CQ").replace(/^[\s'"]+/, "").trim(),
+          currentMap: s.currentMap || d?.currentMap || "Bilinmiyor",
+          gameMode: s.mode || d?.mode || "Conquest",
+          playerCount: Number(s.playerAmount) || 0,
+          maxPlayers: Number(s.maxPlayers) || 64,
+          queueCount: Number(s.inQue || s.inQueue) || 0,
+          // No live ticket scores available from API - null means "not in active game"
+          team1Score: null as number | null,
+          team2Score: null as number | null,
+          team1Name: teamOne.name || "Takım 1",
+          team2Name: teamTwo.name || "Takım 2",
+          team1Image: teamOne.image || null,
+          team2Image: teamTwo.image || null,
+          hasAdmin: !!(d?.owner?.name),
+          activeAdmin: d?.owner?.name || null as string | null,
+          mapImage: s.url || d?.currentMapImage || null,
+          serverId: s.serverId || d?.serverId || null,
+          gameId: s.gameId || d?.gameId || null,
+          region: s.region || d?.region || "EU",
+          country: s.country || d?.country || "DE",
+          settings: d?.settings || null,
+          rotation: d?.rotation || [],
           fetchedAt: new Date(),
         };
         if (db) {
-          await db.insert(serverStats).values(statsData).catch(() => {});
+          // Only save numeric-compatible fields to DB
+          await db.insert(serverStats).values({
+            serverName: statsData.serverName,
+            currentMap: statsData.currentMap,
+            gameMode: statsData.gameMode,
+            playerCount: statsData.playerCount,
+            maxPlayers: statsData.maxPlayers,
+            queueCount: statsData.queueCount,
+            team1Score: statsData.team1Score,
+            team2Score: statsData.team2Score,
+            team1Name: statsData.team1Name,
+            team2Name: statsData.team2Name,
+            hasAdmin: statsData.hasAdmin,
+            activeAdmin: statsData.activeAdmin,
+            mapImage: statsData.mapImage,
+            fetchedAt: statsData.fetchedAt,
+          }).catch(() => {});
         }
         return statsData;
       }
-      // Fallback: return mock data
+      // Fallback: return real server info without fake scores
       return {
         serverName: "[IYI] ALL MAP 200DMG/CQ",
-        currentMap: "Sinai Desert",
+        currentMap: "Bilinmiyor",
         gameMode: "Conquest",
-        playerCount: 48,
+        playerCount: 0,
         maxPlayers: 64,
-        queueCount: 3,
-        team1Score: 1970,
-        team2Score: 1300,
-        team1Name: "Osmanlı İmparatorluğu",
-        team2Name: "İngiliz İmparatorluğu",
-        hasAdmin: true,
-        activeAdmin: "DVHAN",
-        mapImage: null,
+        queueCount: 0,
+        team1Score: null as number | null,
+        team2Score: null as number | null,
+        team1Name: "Takım 1",
+        team2Name: "Takım 2",
+        team1Image: null as string | null,
+        team2Image: null as string | null,
+        hasAdmin: false,
+        activeAdmin: null as string | null,
+        mapImage: null as string | null,
+        serverId: null as string | null,
+        gameId: null as string | null,
+        region: "EU",
+        country: "DE",
+        settings: null,
+        rotation: [] as unknown[],
         fetchedAt: new Date(),
       };
     }),
