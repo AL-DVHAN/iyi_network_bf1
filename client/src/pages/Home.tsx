@@ -85,7 +85,7 @@ export default function Home() {
         <div className="container py-4">
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
             {[
-              { icon: Users, label: "Klan Üyeleri", value: "47+" },
+              { icon: Users, label: "Klan Üyeleri", value: "150+" },
               { icon: Crosshair, label: "Toplam Kill", value: "2.4M+" },
               { icon: Clock, label: "Toplam Süre", value: "18K Saat" },
               { icon: TrendingUp, label: "Ort. K/D", value: "1.85" },
