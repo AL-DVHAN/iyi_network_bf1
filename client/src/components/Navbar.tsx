@@ -142,7 +142,7 @@ export default function Navbar() {
               style={{ background: "transparent" }}
             />
             <div className="hidden sm:block">
-              <span className="font-bold text-base tracking-wide" style={{ fontFamily: "'Oswald', sans-serif", color: '#2b7ac5', color: '#2b7ac5' }}>KAYI BOYU CLAN</span>
+              <span className="font-bold text-base tracking-wide" style={{ fontFamily: "'Oswald', sans-serif", color: '#2b7ac5' }}>KAYI BOYU CLAN</span>
             </div>
           </Link>
 
