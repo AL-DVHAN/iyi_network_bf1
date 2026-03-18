@@ -14,11 +14,11 @@ import { toast } from "sonner";
 type Tab = "silahlar" | "araclar" | "siniflar";
 
 const BF1_CLASSES = [
-  { tr: "Saldırı", en: "Assault", desc: "Cephe hattı savaşçısı, tıbbi destek", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Assault-7c2a4e5a.png" },
+  { tr: "Taarruz", en: "Assault", desc: "Cephe hattı savaşçısı", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Assault-7c2a4e5a.png" },
   { tr: "Destek", en: "Support", desc: "Takım ikmal ve baskı ateşi", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Support-3e2a4e5a.png" },
-  { tr: "Keşif", en: "Scout", desc: "Uzun menzilli keskin nişancı", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Scout-1c2a4e5a.png" },
-  { tr: "Medic", en: "Medic", desc: "Sağlık desteği ve canlandırma", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Medic-2c2a4e5a.png" },
-  { tr: "Şövalye", en: "Tanker", desc: "Zırhlı araç operatörü", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Tanker-4c2a4e5a.png" },
+  { tr: "Nişancı", en: "Scout", desc: "Uzun menzilli keskin nişancı", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Scout-1c2a4e5a.png" },
+  { tr: "Sıhhiyeci", en: "Medic", desc: "Sağlık desteği ve canlandırma", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Medic-2c2a4e5a.png" },
+  { tr: "Tankçı", en: "Tanker", desc: "Zırhlı araç operatörü", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Tanker-4c2a4e5a.png" },
   { tr: "Pilot", en: "Pilot", desc: "Hava kuvvetleri uzmanı", img: "https://eaassets-a.akamaihd.net/battlelog/battlebinary/gamedata/bf1/196/64/Pilot-5c2a4e5a.png" },
 ];
 

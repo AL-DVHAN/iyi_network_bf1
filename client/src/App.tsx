@@ -34,7 +34,7 @@ function Layout({ children }: { children: React.ReactNode }) {
                 alt="KAYI BOYU CLAN"
                 className="w-7 h-7 rounded-full object-contain"
               />
-              <span className="text-sm font-semibold" style={{ color: "var(--primary)", fontFamily: "'Oswald', sans-serif" }}>KAYI BOYU CLAN</span>
+              <span className="text-sm font-semibold" style={{ color: "var(--primary)", fontFamily: "'Oswald', sans-serif" }}></span>
             </div>
             <div className="text-center">
               <p className="text-xs" style={{ color: "var(--muted-foreground)" }}>
