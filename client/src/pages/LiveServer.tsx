@@ -64,16 +64,22 @@ const BF1_MODES: Record<string, string> = {
 const BF1_TEAMS: Record<string, string> = {
   "German Empire": "Alman İmparatorluğu",
   "Ottoman Empire": "Osmanlı İmparatorluğu",
-  "British Empire": "İngiliz İmparatorluğu",
-  "French Army": "Fransız Ordusu",
-  "US Army": "ABD Ordusu",
-  "Austro-Hungarian Empire": "Avusturya-Macaristan İmparatorluğu",
+  "British Empire": "Birleşik Krallık",
+  "French Army": "Fransa",
+  "US Army": "Amerika Birleşik Devletleri",
+  "Austro-Hungarian Empire": "Avusturya-Macaristan",
   "Russian Empire": "Rus İmparatorluğu",
-  "Italian Army": "İtalyan Ordusu",
+  "Italian Army": "İtalya Krallığı",
   "Kingdom of Italy": "İtalya Krallığı",
   "Kingdom of Bulgaria": "Bulgaristan Krallığı",
   "Harlem Hellfighters": "Harlem Cehennem Askerleri",
   "Royal Marines": "Kraliyet Denizcileri",
+  "United States of America": "Amerika Birleşik Devletleri",
+  "United Kingdom": "Birleşik Krallık",
+  "France": "Fransa",
+  "Red Army": "Kızıl Ordu",
+  "Russia": "Rus İmparatorluğu",
+  "Austria-Hungary Empire": "Avusturya-Macaristan",
 };
 
 interface ServerSettings {

@@ -94,6 +94,19 @@ function parseNum(val: unknown): number {
   return 0;
 }
 
+// Class name mappings
+const CLASS_NAMES: Record<string, string> = {
+  "Assault": "Taarruz",
+  "Medic": "Sıhhiyeci",
+  "Scout": "Nişancı",
+  "Support": "Tankçı",
+  "Attack": "Taarruz",
+  "Recon": "Nişancı",
+  "Cavalry": "Tankçı",
+  "Pilot": "Pilot",
+  "Tanker": "Tankçı",
+};
+
 function parseRawData(raw: RawApiData): ParsedStats {
   const weapons: ParsedWeapon[] = (raw.weapons || []).map((w: RawApiData) => ({
     name: w.weaponName || w.name || "?",
@@ -115,12 +128,12 @@ function parseRawData(raw: RawApiData): ParsedStats {
     kills: parseNum(v.kills),
     kpm: parseNum(v.killsPerMinute),
     destroyed: parseNum(v.destroyed),
-    timeInSec: parseNum(v.timeIn),  // API returns seconds
+    timeInSec: parseNum(v.timeIn),
   }));
 
   // classes is an array: [{className, score, kills, kpm, image, timePlayed, secondsPlayed}]
   const classes: ParsedClass[] = (Array.isArray(raw.classes) ? raw.classes : []).map((c: RawApiData) => ({
-    name: c.className || "?",
+    name: CLASS_NAMES[c.className] || c.className || "?",
     image: c.image || c.altImage || "",
     score: parseNum(c.score),
     kills: parseNum(c.kills),
@@ -453,10 +466,10 @@ function WeaponsTable({ weapons }: { weapons: ParsedWeapon[] }) {
             </tr>
           </thead>
           <tbody>
-            {sorted.slice(0, 10).map((w, i) => (
+             {sorted.slice(0, 8).map((w, i) => (
               <tr key={i}>
                 <td>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => window.location.href = `/ansiklopedi?search=${encodeURIComponent(w.name)}`}>
                     {w.image && (
                       <img src={w.image} alt={w.name} className="w-12 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                     )}
@@ -512,7 +525,7 @@ function VehiclesTable({ vehicles }: { vehicles: ParsedVehicle[] }) {
             {sorted.slice(0, 8).map((v, i) => (
               <tr key={i}>
                 <td>
-                  <div className="flex items-center gap-2">
+                  <div className="flex items-center gap-2 cursor-pointer hover:opacity-80 transition-opacity" onClick={() => window.location.href = `/ansiklopedi?search=${encodeURIComponent(v.name)}`}>
                     {v.image && (
                       <img src={v.image} alt={v.name} className="w-12 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                     )}
@@ -571,7 +584,7 @@ function ClassesTable({ classes }: { classes: ParsedClass[] }) {
                     {c.image && (
                       <img src={c.image} alt={c.name} className="w-7 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                     )}
-                    <span className="text-sm font-medium text-foreground">{c.name}</span>
+                    <span className="text-sm font-medium text-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => window.location.href = `/ansiklopedi?search=${encodeURIComponent(c.name)}`}>{c.name}</span>
                   </div>
                 </td>
                 <td className="font-semibold" style={{ color: "oklch(0.75 0.16 75)" }}>{formatNumber(c.kills)}</td>
