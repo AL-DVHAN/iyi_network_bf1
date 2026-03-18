@@ -59,7 +59,46 @@ export default function Stats() {
     navigate(`/istatistik?player=${encodeURIComponent(normalized)}`);
   };
 
-  const data = statsQuery.data?.data as PlayerStats | undefined;
+  const rawData = statsQuery.data?.data as PlayerStats | undefined;
+
+  // Safely parse all numeric fields - Gametools API sometimes returns strings
+  const data: PlayerStats | undefined = rawData ? {
+    ...rawData,
+    kdr: parseFloat(String(rawData.kdr ?? 0)) || 0,
+    kpm: parseFloat(String(rawData.kpm ?? 0)) || 0,
+    spm: parseFloat(String(rawData.spm ?? 0)) || 0,
+    accuracy: parseFloat(String(rawData.accuracy ?? 0)) || 0,
+    headshotsPercent: parseFloat(String(rawData.headshotsPercent ?? 0)) || 0,
+    kills: parseInt(String(rawData.kills ?? 0)) || 0,
+    deaths: parseInt(String(rawData.deaths ?? 0)) || 0,
+    revives: parseInt(String(rawData.revives ?? 0)) || 0,
+    dogtagsTaken: parseInt(String(rawData.dogtagsTaken ?? 0)) || 0,
+    longestHeadshot: parseFloat(String(rawData.longestHeadshot ?? 0)) || 0,
+    highestKillStreak: parseInt(String(rawData.highestKillStreak ?? 0)) || 0,
+    wins: parseInt(String(rawData.wins ?? 0)) || 0,
+    losses: parseInt(String(rawData.losses ?? 0)) || 0,
+    timePlayed: parseFloat(String(rawData.timePlayed ?? 0)) || 0,
+    rank: parseInt(String(rawData.rank ?? 0)) || 0,
+    weapons: rawData.weapons?.map(w => ({
+      ...w,
+      kills: parseInt(String(w.kills ?? 0)) || 0,
+      accuracy: parseFloat(String(w.accuracy ?? 0)) || 0,
+      timeEquipped: parseFloat(String(w.timeEquipped ?? 0)) || 0,
+    })),
+    vehicles: rawData.vehicles?.map(v => ({
+      ...v,
+      kills: parseInt(String(v.kills ?? 0)) || 0,
+      timePlayed: parseFloat(String(v.timePlayed ?? 0)) || 0,
+    })),
+    classes: rawData.classes ? Object.fromEntries(
+      Object.entries(rawData.classes).map(([k, v]) => [k, {
+        ...v,
+        kills: parseInt(String(v.kills ?? 0)) || 0,
+        kdr: parseFloat(String(v.kdr ?? 0)) || 0,
+        timePlayed: parseFloat(String(v.timePlayed ?? 0)) || 0,
+      }])
+    ) : undefined,
+  } : undefined;
 
   return (
     <div className="container py-8">

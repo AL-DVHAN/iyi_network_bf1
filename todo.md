@@ -52,3 +52,6 @@
 - [ ] Haftalık görev otomatik oluşturma (cron job)
 - [ ] Liderlik tablosu otomatik güncelleme
 - [ ] Hetzner deployment rehberi (DEPLOYMENT.md)
+
+## Hata Düzeltmeleri
+- [x] Stats sayfası: accuracy.toFixed is not a function hatası - API'den string gelen sayısal değerleri parseFloat ile parse et
