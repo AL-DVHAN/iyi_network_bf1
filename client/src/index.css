@@ -3,7 +3,7 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* ─── BF1 Military Dark Theme ─── */
+/* ─── IYI Network - BF1 Theme System ─── */
 
 @theme inline {
   --radius-sm: calc(var(--radius) - 4px);
@@ -39,9 +39,12 @@
   --color-gold-dim: var(--gold-dim);
 }
 
-:root {
+/* ═══════════════════════════════════════
+   DARK THEME (Default - BF1 Military)
+═══════════════════════════════════════ */
+:root,
+.dark:not(.theme-blue):not(.theme-light) {
   --radius: 0.375rem;
-  /* BF1 Dark Military Palette */
   --background: oklch(0.12 0.01 60);
   --foreground: oklch(0.92 0.02 80);
   --card: oklch(0.16 0.015 58);
@@ -66,24 +69,99 @@
   --chart-3: oklch(0.60 0.15 145);
   --chart-4: oklch(0.70 0.15 30);
   --chart-5: oklch(0.65 0.18 300);
-  /* IYI Brand Colors */
   --gold: oklch(0.75 0.16 75);
   --gold-dim: oklch(0.60 0.12 75);
 }
 
-/* Dark is the only theme - same as :root */
+/* ═══════════════════════════════════════
+   BLUE THEME (IYI Mavi - Klan Rengi)
+═══════════════════════════════════════ */
+.dark.theme-blue {
+  --radius: 0.375rem;
+  --background: oklch(0.11 0.04 250);
+  --foreground: oklch(0.93 0.02 220);
+  --card: oklch(0.15 0.05 245);
+  --card-foreground: oklch(0.93 0.02 220);
+  --popover: oklch(0.13 0.04 248);
+  --popover-foreground: oklch(0.93 0.02 220);
+  --primary: oklch(0.65 0.18 240);
+  --primary-foreground: oklch(0.98 0.01 220);
+  --secondary: oklch(0.20 0.06 245);
+  --secondary-foreground: oklch(0.88 0.03 220);
+  --muted: oklch(0.18 0.04 248);
+  --muted-foreground: oklch(0.55 0.05 230);
+  --accent: oklch(0.22 0.07 245);
+  --accent-foreground: oklch(0.93 0.02 220);
+  --destructive: oklch(0.55 0.20 25);
+  --destructive-foreground: oklch(0.95 0.01 80);
+  --border: oklch(0.25 0.07 245);
+  --input: oklch(0.18 0.05 248);
+  --ring: oklch(0.65 0.18 240);
+  --chart-1: oklch(0.65 0.18 240);
+  --chart-2: oklch(0.70 0.15 200);
+  --chart-3: oklch(0.60 0.15 145);
+  --chart-4: oklch(0.72 0.14 75);
+  --chart-5: oklch(0.65 0.18 300);
+  --gold: oklch(0.72 0.14 75);
+  --gold-dim: oklch(0.60 0.12 75);
+}
+
+/* ═══════════════════════════════════════
+   LIGHT THEME (Beyaz - Aydınlık)
+═══════════════════════════════════════ */
+.theme-light {
+  color-scheme: light;
+  --radius: 0.375rem;
+  --background: oklch(0.97 0.005 240);
+  --foreground: oklch(0.15 0.02 240);
+  --card: oklch(1.0 0.0 0);
+  --card-foreground: oklch(0.15 0.02 240);
+  --popover: oklch(1.0 0.0 0);
+  --popover-foreground: oklch(0.15 0.02 240);
+  --primary: oklch(0.50 0.18 240);
+  --primary-foreground: oklch(0.98 0.01 220);
+  --secondary: oklch(0.92 0.02 240);
+  --secondary-foreground: oklch(0.20 0.03 240);
+  --muted: oklch(0.93 0.01 240);
+  --muted-foreground: oklch(0.45 0.04 240);
+  --accent: oklch(0.90 0.03 240);
+  --accent-foreground: oklch(0.20 0.03 240);
+  --destructive: oklch(0.55 0.20 25);
+  --destructive-foreground: oklch(0.98 0.01 80);
+  --border: oklch(0.85 0.02 240);
+  --input: oklch(0.88 0.02 240);
+  --ring: oklch(0.50 0.18 240);
+  --chart-1: oklch(0.50 0.18 240);
+  --chart-2: oklch(0.55 0.15 200);
+  --chart-3: oklch(0.50 0.15 145);
+  --chart-4: oklch(0.60 0.14 75);
+  --chart-5: oklch(0.55 0.18 300);
+  --gold: oklch(0.60 0.14 75);
+  --gold-dim: oklch(0.50 0.10 75);
+}
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
   }
   html { color-scheme: dark; }
+  html.theme-light { color-scheme: light; }
   body {
     @apply bg-background text-foreground font-sans antialiased;
+    min-height: 100vh;
+  }
+  /* Dark theme body gradient */
+  .dark:not(.theme-blue):not(.theme-light) body,
+  :root body {
     background-image:
       radial-gradient(ellipse at 20% 50%, oklch(0.18 0.02 55 / 0.4) 0%, transparent 60%),
       radial-gradient(ellipse at 80% 20%, oklch(0.15 0.03 40 / 0.3) 0%, transparent 50%);
-    min-height: 100vh;
+  }
+  /* Blue theme body gradient */
+  .dark.theme-blue body {
+    background-image:
+      radial-gradient(ellipse at 20% 50%, oklch(0.18 0.08 250 / 0.5) 0%, transparent 60%),
+      radial-gradient(ellipse at 80% 20%, oklch(0.15 0.06 240 / 0.4) 0%, transparent 50%);
   }
   button:not(:disabled),
   [role="button"]:not([aria-disabled="true"]),
@@ -97,9 +175,9 @@
     @apply cursor-pointer;
   }
   ::-webkit-scrollbar { width: 6px; height: 6px; }
-  ::-webkit-scrollbar-track { background: oklch(0.14 0.01 60); }
-  ::-webkit-scrollbar-thumb { background: oklch(0.30 0.03 60); border-radius: 3px; }
-  ::-webkit-scrollbar-thumb:hover { background: oklch(0.72 0.14 75); }
+  ::-webkit-scrollbar-track { background: var(--background); }
+  ::-webkit-scrollbar-thumb { background: var(--border); border-radius: 3px; }
+  ::-webkit-scrollbar-thumb:hover { background: var(--primary); }
 }
 
 @layer utilities {
@@ -112,13 +190,13 @@
   .glow-gold-sm { box-shadow: 0 0 8px oklch(0.75 0.16 75 / 0.4); }
   .text-glow-gold { text-shadow: 0 0 20px oklch(0.75 0.16 75 / 0.6); }
   .card-bf1 {
-    background: linear-gradient(135deg, oklch(0.17 0.015 58) 0%, oklch(0.14 0.01 55) 100%);
-    border: 1px solid oklch(0.28 0.03 60);
+    background: var(--card);
+    border: 1px solid var(--border);
     border-radius: var(--radius);
   }
   .card-bf1:hover {
-    border-color: oklch(0.75 0.16 75 / 0.5);
-    box-shadow: 0 4px 20px oklch(0.75 0.16 75 / 0.1);
+    border-color: oklch(from var(--primary) l c h / 0.5);
+    box-shadow: 0 4px 20px oklch(from var(--primary) l c h / 0.1);
   }
   .btn-gold {
     display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
@@ -134,10 +212,10 @@
   .btn-ghost-gold {
     display: inline-flex; align-items: center; justify-content: center; gap: 0.5rem;
     padding: 0.5rem 1rem; border-radius: var(--radius); font-weight: 600; font-size: 0.875rem;
-    color: oklch(0.72 0.14 75); border: 1px solid oklch(0.72 0.14 75 / 0.4);
+    color: var(--primary); border: 1px solid oklch(from var(--primary) l c h / 0.4);
     background: transparent; transition: all 0.2s; cursor: pointer;
   }
-  .btn-ghost-gold:hover { background: oklch(0.72 0.14 75 / 0.1); border-color: oklch(0.72 0.14 75 / 0.7); }
+  .btn-ghost-gold:hover { background: oklch(from var(--primary) l c h / 0.1); border-color: oklch(from var(--primary) l c h / 0.7); }
   .donator-badge {
     display: inline-flex; align-items: center; gap: 0.25rem;
     padding: 0.125rem 0.5rem; border-radius: 9999px; font-size: 0.75rem; font-weight: 700;
@@ -155,35 +233,23 @@
   }
   .section-divider {
     width: 100%; height: 1px;
-    background: linear-gradient(90deg, transparent, oklch(0.75 0.16 75 / 0.5), transparent);
+    background: linear-gradient(90deg, transparent, var(--primary), transparent);
+    opacity: 0.4;
   }
   .table-bf1 { width: 100%; font-size: 0.875rem; }
-  .table-bf1 thead tr { border-bottom: 1px solid oklch(0.25 0.02 60); background: oklch(0.18 0.02 58); }
-  .table-bf1 thead th { padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: oklch(0.55 0.02 80); }
-  .table-bf1 tbody tr { border-bottom: 1px solid oklch(0.25 0.02 60 / 0.5); transition: background 0.15s; }
-  .table-bf1 tbody tr:hover { background: oklch(0.18 0.02 58 / 0.5); }
+  .table-bf1 thead tr { border-bottom: 1px solid var(--border); background: var(--muted); }
+  .table-bf1 thead th { padding: 0.75rem 1rem; text-align: left; font-size: 0.75rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; color: var(--muted-foreground); }
+  .table-bf1 tbody tr { border-bottom: 1px solid oklch(from var(--border) l c h / 0.5); transition: background 0.15s; }
+  .table-bf1 tbody tr:hover { background: oklch(from var(--muted) l c h / 0.5); }
   .table-bf1 tbody td { padding: 0.75rem 1rem; }
 }
 
 @layer components {
-  /**
-   * Custom container utility that centers content and adds responsive padding.
-   *
-   * This overrides Tailwind's default container behavior to:
-   * - Auto-center content (mx-auto)
-   * - Add responsive horizontal padding
-   * - Set max-width for large screens
-   *
-   * Usage: <div className="container">...</div>
-   *
-   * For custom widths, use max-w-* utilities directly:
-   * <div className="max-w-6xl mx-auto px-4">...</div>
-   */
   .container {
     width: 100%;
     margin-left: auto;
     margin-right: auto;
-    padding-left: 1rem; /* 16px - mobile padding */
+    padding-left: 1rem;
     padding-right: 1rem;
   }
 
@@ -194,16 +260,16 @@
 
   @media (min-width: 640px) {
     .container {
-      padding-left: 1.5rem; /* 24px - tablet padding */
+      padding-left: 1.5rem;
       padding-right: 1.5rem;
     }
   }
 
   @media (min-width: 1024px) {
     .container {
-      padding-left: 2rem; /* 32px - desktop padding */
+      padding-left: 2rem;
       padding-right: 2rem;
-      max-width: 1280px; /* Standard content width */
+      max-width: 1280px;
     }
   }
 }

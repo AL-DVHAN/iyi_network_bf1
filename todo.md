@@ -69,3 +69,13 @@
 - [x] Sol üst IYI ikonunu klan logosuyla değiştir
 - [x] Ansiklopedi silah verisini düzelt - tüm silahlar gösterilmeli (247 silah, 44 araç)
 - [x] Silah detay kartındaki istatistikleri düzelt (“Referans İstatistikler” başlığı + açıklama eklendi)
+
+## 4. Tur İstekler
+- [x] Hakkımızda: Hikayemiz → Bakımda, Yetkililer RainRapMusic0001 Kurucu + boş slotlar Bakımda
+- [x] Hakkımızda: Klan Kuralları → Sunucu Kuralları (9 kural özet)
+- [x] Hakkımızda: Discord linki discord.gg/kayiboyuclan, email/EA Origin kaldır
+- [x] Hakkımızda: Aktif Üye 150+, Sunucu Uptime → Sunucu Sayısı = 1
+- [x] Tüm Discord linklerini discord.gg/kayiboyuclan olarak güncelle
+- [x] Renk temasını mavi tonlara çek
+- [x] Tema seçici ekle (Siyah / Mavi / Beyaz) - üst panelden erişilebilsin
+- [x] Navbar yüksekliğini büyüt, kategoriler arası boşluğu artır

@@ -1,10 +1,10 @@
 import React, { createContext, useContext, useEffect, useState } from "react";
 
-type Theme = "light" | "dark";
+export type Theme = "dark" | "blue" | "light";
 
 interface ThemeContextType {
   theme: Theme;
-  toggleTheme?: () => void;
+  setTheme: (t: Theme) => void;
   switchable: boolean;
 }
 
@@ -18,38 +18,46 @@ interface ThemeProviderProps {
 
 export function ThemeProvider({
   children,
-  defaultTheme = "light",
+  defaultTheme = "dark",
   switchable = false,
 }: ThemeProviderProps) {
-  const [theme, setTheme] = useState<Theme>(() => {
+  const [theme, setThemeState] = useState<Theme>(() => {
     if (switchable) {
-      const stored = localStorage.getItem("theme");
-      return (stored as Theme) || defaultTheme;
+      const stored = localStorage.getItem("iyi-theme");
+      if (stored === "dark" || stored === "blue" || stored === "light") return stored;
     }
     return defaultTheme;
   });
 
   useEffect(() => {
     const root = document.documentElement;
+    // Remove all theme classes
+    root.classList.remove("dark", "theme-blue", "theme-light");
+
     if (theme === "dark") {
       root.classList.add("dark");
+    } else if (theme === "blue") {
+      root.classList.add("dark", "theme-blue");
     } else {
-      root.classList.remove("dark");
+      root.classList.add("theme-light");
     }
 
     if (switchable) {
-      localStorage.setItem("theme", theme);
+      localStorage.setItem("iyi-theme", theme);
     }
   }, [theme, switchable]);
 
+  const setTheme = (t: Theme) => {
+    setThemeState(t);
+  };
+
+  // Legacy toggleTheme for compatibility
   const toggleTheme = switchable
-    ? () => {
-        setTheme(prev => (prev === "light" ? "dark" : "light"));
-      }
+    ? () => setThemeState(prev => (prev === "light" ? "dark" : "light"))
     : undefined;
 
   return (
-    <ThemeContext.Provider value={{ theme, toggleTheme, switchable }}>
+    <ThemeContext.Provider value={{ theme, setTheme, switchable }}>
       {children}
     </ThemeContext.Provider>
   );
