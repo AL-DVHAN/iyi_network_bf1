@@ -189,7 +189,13 @@ export default function About() {
           </div>
 
           {/* Join */}
-          <div className="rounded-lg border p-4" style={{ background: "linear-gradient(135deg, oklch(0.17 0.02 58), oklch(0.14 0.015 55))", borderColor: "oklch(0.72 0.14 75 / 0.3)" }}>
+          <div className="rounded-lg border p-4 join-section" style={{ background: "linear-gradient(135deg, oklch(0.17 0.02 58), oklch(0.14 0.015 55))", borderColor: "oklch(0.72 0.14 75 / 0.3)", colorScheme: "dark" }}>
+            {/* Light theme: gri arka plan */}
+            <style>{`
+              @media (prefers-color-scheme: light) {
+                .join-section { background: linear-gradient(135deg, #e7dada, #f0e6e6) !important; }
+              }
+            `}</style>
             <div className="flex items-center gap-2 mb-2">
               <Star size={16} style={{ color: "oklch(0.75 0.16 75)" }} />
               <h3 className="font-semibold text-sm text-foreground">Katılmak İster misin?</h3>
