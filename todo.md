@@ -98,4 +98,4 @@
 - [x] Profil kartları: isim, K/D, oyun süresi, avatar
 - [x] Otomatik kaydırılan şerit (carousel) - sonsuz döngü
 - [x] Responsive tasarım (mobil'de 2-3 kart, desktop'ta 5-6 kart)
-- [ ] Üyelerimiz sekmesine tıklanabilir oyuncu profili linki
+- [ ] API performansı iyileştirilsin (batch işleme, cache) - Şimdilik devre dışı

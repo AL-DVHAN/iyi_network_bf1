@@ -1,7 +1,5 @@
-import { useState } from "react";
 import { Users, Target, Trophy, Shield, Star, MessageSquare, Server, Wrench, Crown } from "lucide-react";
 import { Link } from "wouter";
-import { ClanMembersCarousel } from "@/components/ClanMembersCarousel";
 
 const TEAM_MEMBERS = [
   {
@@ -72,10 +70,20 @@ export default function About() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
-          {/* Clan Members */}
+          {/* Clan Members - BAKIMDA */}
           <div className="rounded-lg border p-6" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
-            <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.75 0.16 75)" }}>Üyelerimiz</h2>
-            <ClanMembersCarousel />
+            <div className="flex items-center gap-2 mb-4">
+              <h2 className="text-lg font-bold" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.75 0.16 75)" }}>Üyelerimiz</h2>
+              <span className="flex items-center gap-1 text-xs px-2 py-0.5 rounded font-semibold" style={{ background: "oklch(0.65 0.15 50 / 0.2)", color: "oklch(0.72 0.15 50)", border: "1px solid oklch(0.65 0.15 50 / 0.3)" }}>
+                <Wrench size={10} /> BAKIMDA
+              </span>
+            </div>
+            <div className="flex items-center justify-center py-8 rounded-lg" style={{ background: "var(--muted)", border: "1px dashed var(--border)" }}>
+              <div className="text-center">
+                <Wrench size={28} className="mx-auto mb-2" style={{ color: "oklch(0.45 0.02 60)" }} />
+                <p className="text-sm text-muted-foreground">Üye verileri sistemi yakında aktif olacak.</p>
+              </div>
+            </div>
           </div>
 
           {/* Story - BAKIM */}
