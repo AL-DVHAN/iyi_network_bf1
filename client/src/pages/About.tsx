@@ -51,6 +51,10 @@ const SERVER_RULES = [
     title: "Admin Kararları",
     desc: "Admin talimatlarına uyulmalıdır. Haksız bulduğunuz kararlar için oyun içinde tartışmak yerine site üzerindeki Geri Bildirim formunu kullanın.",
   },
+  {
+    title: "Anti Air Truck Yasaktır",
+    desc: "Uçaksavar Kamyonu tipi araçlarla konuşlanmanız kick sebebidir.",
+  },
 ];
 
 export default function About() {

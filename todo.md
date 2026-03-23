@@ -99,3 +99,6 @@
 - [x] Otomatik kaydırılan şerit (carousel) - sonsuz döngü
 - [x] Responsive tasarım (mobil'de 2-3 kart, desktop'ta 5-6 kart)
 - [ ] API performansı iyileştirilsin (batch işleme, cache) - Şimdilik devre dışı
+
+## 7. Kural Güncellemeleri
+- [x] 10. kural: "Anti Air Truck Yasaktır" - "Uçaksavar Kamyonu tipi araçlarla konuşlanmanız kick sebebidir."
