@@ -131,6 +131,19 @@ export const proTips = mysqlTable("pro_tips", {
   createdAt: timestamp("createdAt").defaultNow().notNull(),
 });
 
+export const clanMembers = mysqlTable("clan_members", {
+  id: int("id").autoincrement().primaryKey(),
+  eaUsername: varchar("eaUsername", { length: 128 }).notNull().unique(),
+  displayName: varchar("displayName", { length: 128 }),
+  platform: mysqlEnum("platform", ["pc", "xbox", "ps4"]).default("pc"),
+  kd: decimal("kd", { precision: 6, scale: 2 }).default("0"),
+  playtimeHours: int("playtimeHours").default(0),
+  kills: int("kills").default(0),
+  deaths: int("deaths").default(0),
+  lastUpdated: timestamp("lastUpdated").defaultNow().onUpdateNow().notNull(),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+});
+
 export const serverStats = mysqlTable("server_stats", {
   id: int("id").autoincrement().primaryKey(),
   playerCount: int("playerCount").default(0),
@@ -159,3 +172,5 @@ export type BanEntry = typeof banList.$inferSelect;
 export type BanAppeal = typeof banAppeals.$inferSelect;
 export type Donation = typeof donations.$inferSelect;
 export type ProTip = typeof proTips.$inferSelect;
+export type ClanMember = typeof clanMembers.$inferSelect;
+export type InsertClanMember = typeof clanMembers.$inferInsert;

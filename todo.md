@@ -90,3 +90,12 @@
 - [ ] Footer: 2024→2025, Gametools mention ekle, sarı IYI ikonu ve portal yazıları kaldırılsın
 - [ ] Destekçi Ol: Tek paket, 100 TL, basit özellikler
 - [ ] Canlı Sunucu: Conquest→Fetih, API ibaresi kaldırılsın, detay paneli toggle ile açılsın
+
+## 6. Tur İstekler - Klan Üyeleri Sekmesi
+- [x] Klan üyelerini veritabanına kaydet (130+ oyuncu)
+- [x] Gametools API'den her üyenin istatistiklerini çek (K/D, oyun süresi)
+- [x] "Üyelerimiz" sekmesi oluştur - Hakkımızda sayfasına ekle
+- [x] Profil kartları: isim, K/D, oyun süresi, avatar
+- [x] Otomatik kaydırılan şerit (carousel) - sonsuz döngü
+- [x] Responsive tasarım (mobil'de 2-3 kart, desktop'ta 5-6 kart)
+- [ ] Üyelerimiz sekmesine tıklanabilir oyuncu profili linki

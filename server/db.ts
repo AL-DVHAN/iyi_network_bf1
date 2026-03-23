@@ -90,3 +90,66 @@ export async function getUserByOpenId(openId: string) {
 }
 
 // TODO: add feature queries here as your schema grows.
+
+// Clan Members
+import { clanMembers, InsertClanMember, ClanMember } from "../drizzle/schema";
+
+export async function upsertClanMember(member: InsertClanMember): Promise<void> {
+  if (!member.eaUsername) {
+    throw new Error("eaUsername is required for upsert");
+  }
+
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot upsert clan member: database not available");
+    return;
+  }
+
+  try {
+    await db.insert(clanMembers).values(member).onDuplicateKeyUpdate({
+      set: {
+        displayName: member.displayName,
+        kd: member.kd,
+        playtimeHours: member.playtimeHours,
+        kills: member.kills,
+        deaths: member.deaths,
+        lastUpdated: new Date(),
+      },
+    });
+  } catch (error) {
+    console.error("[Database] Failed to upsert clan member:", error);
+    throw error;
+  }
+}
+
+export async function getClanMembers(): Promise<ClanMember[]> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get clan members: database not available");
+    return [];
+  }
+
+  try {
+    const result = await db.select().from(clanMembers).orderBy(clanMembers.kd);
+    return result;
+  } catch (error) {
+    console.error("[Database] Failed to get clan members:", error);
+    return [];
+  }
+}
+
+export async function getClanMemberByUsername(eaUsername: string): Promise<ClanMember | undefined> {
+  const db = await getDb();
+  if (!db) {
+    console.warn("[Database] Cannot get clan member: database not available");
+    return undefined;
+  }
+
+  try {
+    const result = await db.select().from(clanMembers).where(eq(clanMembers.eaUsername, eaUsername)).limit(1);
+    return result.length > 0 ? result[0] : undefined;
+  } catch (error) {
+    console.error("[Database] Failed to get clan member:", error);
+    return undefined;
+  }
+}

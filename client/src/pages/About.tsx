@@ -1,5 +1,7 @@
+import { useState } from "react";
 import { Users, Target, Trophy, Shield, Star, MessageSquare, Server, Wrench, Crown } from "lucide-react";
 import { Link } from "wouter";
+import { ClanMembersCarousel } from "@/components/ClanMembersCarousel";
 
 const TEAM_MEMBERS = [
   {
@@ -70,6 +72,12 @@ export default function About() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Main Content */}
         <div className="lg:col-span-2 space-y-8">
+          {/* Clan Members */}
+          <div className="rounded-lg border p-6" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+            <h2 className="text-lg font-bold mb-4" style={{ fontFamily: "'Oswald', sans-serif", color: "oklch(0.75 0.16 75)" }}>Üyelerimiz</h2>
+            <ClanMembersCarousel />
+          </div>
+
           {/* Story - BAKIM */}
           <div className="rounded-lg border p-6" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
             <div className="flex items-center gap-2 mb-4">

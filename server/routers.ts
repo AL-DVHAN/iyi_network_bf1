@@ -8,7 +8,7 @@ import { TRPCError } from "@trpc/server";
 import { getDb } from "./db";
 import {
   users, weeklyChallenges, challengeCompletions, leaderboardEntries,
-  feedback, banList, banAppeals, donations, proTips, serverStats
+  feedback, banList, banAppeals, donations, proTips, serverStats, clanMembers
 } from "../drizzle/schema";
 import axios from "axios";
 
@@ -525,6 +525,7 @@ export const appRouter = router({
   }),
 
   // ─── Profile ──────────────────────────────────────────────────────────────
+  // ─── Profile ──────────────────────────────────────────────────────────────
   profile: router({
     getMe: protectedProcedure.query(async ({ ctx }) => {
       const db = await getDb();
@@ -532,6 +533,67 @@ export const appRouter = router({
       const result = await db.select().from(users).where(eq(users.id, ctx.user.id)).limit(1);
       return result[0] || ctx.user;
     }),
+  }),
+
+  // ─── Clan Members ─────────────────────────────────────────────────────────
+  clanMembers: router({
+    getAll: publicProcedure.query(async () => {
+      const db = await getDb();
+      if (!db) return [];
+      try {
+        const result = await db.select().from(clanMembers).orderBy(desc(clanMembers.kd));
+        return result;
+      } catch (error) {
+        console.error("[clanMembers.getAll] Error:", error);
+        return [];
+      }
+    }),
+
+    syncFromGametools: adminProcedure
+      .input(z.object({ usernames: z.array(z.string()) }))
+      .mutation(async ({ input }) => {
+        const db = await getDb();
+        if (!db) throw new TRPCError({ code: "INTERNAL_SERVER_ERROR" });
+
+        const results = [];
+        for (const username of input.usernames) {
+          try {
+            const stats = await fetchPlayerStats(username, "pc");
+            if (stats?.result?.player) {
+              const p = stats.result.player;
+              const kd = p.killDeath ? parseFloat(String(p.killDeath)) : 0;
+              const playtimeHours = p.secondsPlayed ? Math.ceil(parseInt(String(p.secondsPlayed)) / 3600) : 0;
+              const kills = p.kills ? parseInt(String(p.kills)) : 0;
+              const deaths = p.deaths ? parseInt(String(p.deaths)) : 0;
+
+              await db.insert(clanMembers).values({
+                eaUsername: username,
+                displayName: p.personaName || username,
+                kd: String(kd),
+                playtimeHours,
+                kills,
+                deaths,
+              }).onDuplicateKeyUpdate({
+                set: {
+                  displayName: p.personaName || username,
+                  kd: String(kd),
+                  playtimeHours,
+                  kills,
+                  deaths,
+                  lastUpdated: new Date(),
+                },
+              });
+              results.push({ username, success: true });
+            } else {
+              results.push({ username, success: false, error: "Player not found" });
+            }
+          } catch (error) {
+            console.error(`[clanMembers.sync] Error for ${username}:`, error);
+            results.push({ username, success: false, error: String(error) });
+          }
+        }
+        return { synced: results.filter(r => r.success).length, total: input.usernames.length, results };
+      }),
   }),
 });
 

@@ -15,6 +15,13 @@
       "when": 1773814196278,
       "tag": "0001_fixed_odin",
       "breakpoints": true
+    },
+    {
+      "idx": 2,
+      "version": "5",
+      "when": 1774228867634,
+      "tag": "0002_massive_mimic",
+      "breakpoints": true
     }
   ]
 }

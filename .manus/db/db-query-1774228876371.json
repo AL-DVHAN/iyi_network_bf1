@@ -1,0 +1,9 @@
+{
+  "query": "CREATE TABLE `clan_members` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`eaUsername` varchar(128) NOT NULL,\n\t`displayName` varchar(128),\n\t`platform` enum('pc','xbox','ps4') DEFAULT 'pc',\n\t`kd` decimal(6,2) DEFAULT 0,\n\t`playtimeHours` int DEFAULT 0,\n\t`kills` int DEFAULT 0,\n\t`deaths` int DEFAULT 0,\n\t`lastUpdated` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `clan_members_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `clan_members_eaUsername_unique` UNIQUE(`eaUsername`)\n);",
+  "command": "mysql --batch --raw --column-names --default-character-set=utf8mb4 --host gateway04.us-east-1.prod.aws.tidbcloud.com --port 4000 --user 2XxYpnXFJ1xZwX1.root --database Gmy9fZETeSxEKPMRqUqKxx --execute CREATE TABLE `clan_members` (\n\t`id` int AUTO_INCREMENT NOT NULL,\n\t`eaUsername` varchar(128) NOT NULL,\n\t`displayName` varchar(128),\n\t`platform` enum('pc','xbox','ps4') DEFAULT 'pc',\n\t`kd` decimal(6,2) DEFAULT 0,\n\t`playtimeHours` int DEFAULT 0,\n\t`kills` int DEFAULT 0,\n\t`deaths` int DEFAULT 0,\n\t`lastUpdated` timestamp NOT NULL DEFAULT (now()) ON UPDATE CURRENT_TIMESTAMP,\n\t`createdAt` timestamp NOT NULL DEFAULT (now()),\n\tCONSTRAINT `clan_members_id` PRIMARY KEY(`id`),\n\tCONSTRAINT `clan_members_eaUsername_unique` UNIQUE(`eaUsername`)\n);",
+  "rows": [],
+  "messages": [],
+  "stdout": "",
+  "stderr": "",
+  "execution_time_ms": 2236
+}
