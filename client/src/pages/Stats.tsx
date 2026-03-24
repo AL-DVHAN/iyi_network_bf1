@@ -107,10 +107,45 @@ const CLASS_NAMES: Record<string, string> = {
   "Tanker": "Tankçı",
 };
 
+// Weapon type mappings
+const WEAPON_TYPE_NAMES: Record<string, string> = {
+  "Assault Rifle": "Saldırı Tüfeği",
+  "Carbine": "Karabin",
+  "Medic Rifle": "Sıhhiyeci Tüfeği",
+  "Scout Rifle": "Nişancı Tüfeği",
+  "Support Rifle": "Destek Tüfeği",
+  "Shotgun": "Pompalı Tüfek",
+  "Pistol": "Tabanca",
+  "Revolver": "Revolver",
+  "Flare Gun": "Işık Fişeği",
+  "Submachine Gun": "Makineli Tabanca",
+  "Light Machine Gun": "Hafif Makineli Tüfek",
+  "Sniper Rifle": "Keskin Nişancı Tüfeği",
+  "Melee": "Yakın Dövüş",
+  "Gadget": "Alet",
+  "Grenade": "El Bombası",
+  "Explosive": "Patlayıcı",
+};
+
+// Vehicle type mappings
+const VEHICLE_TYPE_NAMES: Record<string, string> = {
+  "Tank": "Tank",
+  "Landship": "Kara Gemisi",
+  "Armored Car": "Zırhlı Araba",
+  "Motorcycle": "Motosiklet",
+  "Helicopter": "Helikopter",
+  "Plane": "Uçak",
+  "Bomber": "Bombardıman Uçağı",
+  "Fighter": "Savaş Uçağı",
+  "Airship": "Hava Gemisi",
+  "Boat": "Tekne",
+  "Truck": "Kamyon",
+};
+
 function parseRawData(raw: RawApiData): ParsedStats {
   const weapons: ParsedWeapon[] = (raw.weapons || []).map((w: RawApiData) => ({
     name: w.weaponName || w.name || "?",
-    type: w.type || "",
+    type: WEAPON_TYPE_NAMES[w.type] || w.type || "",
     image: w.image || "",
     kills: parseNum(w.kills),
     kpm: parseNum(w.killsPerMinute),
@@ -123,7 +158,7 @@ function parseRawData(raw: RawApiData): ParsedStats {
 
   const vehicles: ParsedVehicle[] = (raw.vehicles || []).map((v: RawApiData) => ({
     name: v.vehicleName || v.name || "?",
-    type: v.type || "",
+    type: VEHICLE_TYPE_NAMES[v.type] || v.type || "",
     image: v.image || "",
     kills: parseNum(v.kills),
     kpm: parseNum(v.killsPerMinute),

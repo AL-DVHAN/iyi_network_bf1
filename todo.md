@@ -102,3 +102,7 @@
 
 ## 7. Kural Güncellemeleri
 - [x] 10. kural: "Anti Air Truck Yasaktır" - "Uçaksavar Kamyonu tipi araçlarla konuşlanmanız kick sebebidir."
+
+## 8. Türkçeleştirme - Oyuncu İstatistikleri
+- [x] Silah türlerini Türkçeleştir (Assault Rifle → Saldırı Tüfeği, vb.)
+- [x] Araç türlerini Türkçeleştir (Tank, Plane, Helicopter → Türkçe karşılıkları)
