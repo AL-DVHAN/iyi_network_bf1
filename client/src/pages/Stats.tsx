@@ -128,6 +128,62 @@ const WEAPON_TYPE_NAMES: Record<string, string> = {
   "Explosive": "Patlayıcı",
 };
 
+// Weapon name mappings (English → Turkish from Encyclopedia)
+const WEAPON_NAME_MAP: Record<string, string> = {
+  "MP 18 Trench": "MP 18 Siper",
+  "MP 18 Experimental": "MP 18 Deneysel",
+  "Automatico M1918 Factory": "Automatico M1918 Fabrika",
+  "MP 18 Optical": "MP 18 Dürbünlü",
+  "Automatico M1918 Storm": "Automatico M1918 Fırtına",
+  "Automatico M1918 Trench": "Automatico M1918 Siper",
+  "Ribeyrolles 1918 Factory": "Ribeyrolles 1918 Fabrika",
+  "SMG 08/18 Optical": "SMG 08/18 Dürbünlü",
+  "SMG 08/18 Factory": "SMG 08/18 Fabrika",
+  "Maschinenpistole M1912/P.16 Storm": "Maschinenpistole M1912/P.16 Fırtına",
+  "RSC SMG Factory": "RSC SMG Fabrika",
+  "RSC SMG Optical": "RSC SMG Dürbünlü",
+  "Annihilator Trench": "Annihilator Siper",
+  "Maschinenpistole M1912/P.16 Experimental": "Maschinenpistole M1912/P.16 Deneysel",
+  "Ribeyrolles 1918 Optical": "Ribeyrolles 1918 Dürbünlü",
+  "Hellriegel 1915 Factory": "Hellriegel 1915 Fabrika",
+  "Hellriegel 1915 Defensive": "Hellriegel 1915 Müdafaa",
+  "M1917 Trench Carbine": "M1917 Siper Karabin",
+  "12g Automatic Hunter": "12g Automatic Avcı",
+  "Model 10-A Factory": "Model 10-A Fabrika",
+  "Model 10-A Hunter": "Model 10-A Avcı",
+  "M97 Trench Gun Hunter": "M97 Siper Gun Avcı",
+  "M97 Trench Gun Backbored": "M97 Siper Gun Backbored",
+  "Model 10-A Slug": "Model 10-A Çekirdek",
+  "12g Automatic Extended": "12g Automatic Uzatılmış Şarjör",
+  "M97 Trench Gun Sweeper": "M97 Siper Gun Süpürücü",
+  "Sjögren Inertial Factory": "Sjögren Inertial Fabrika",
+  "Model 1900 Factory": "Model 1900 Fabrika",
+  "Model 1900 Slug": "Model 1900 Çekirdek",
+  "Sjögren Inertial Slug": "Sjögren Inertial Çekirdek",
+  "Hellfighter Trench Shotgun": "Hellfighter Siper Shotgun",
+  "Carcano M91 Patrol Carbine": "Carcano M91 Patrol Karabin",
+  "Mondragón Storm": "Mondragón Fırtına",
+  "Mondragón Optical": "Mondragón Dürbünlü",
+  "Cei-Rigotti Factory": "Cei-Rigotti Fabrika",
+  "M1907 SL Sweeper": "M1907 SL Süpürücü",
+  "Autoloading 8 .25 Extended": "Autoloading 8 .25 Uzatılmış Şarjör",
+  "Selbstlader 1906 Factory": "Selbstlader 1906 Fabrika",
+  "M1907 SL Trench": "M1907 SL Siper",
+  "Selbstlader M1916 Factory": "Selbstlader M1916 Fabrika",
+  "Selbstlader M1916 Optical": "Selbstlader M1916 Dürbünlü",
+  "Mondragón Sniper": "Mondragón Keskin Nişancı",
+  "Cei-Rigotti Optical": "Cei-Rigotti Dürbünlü",
+  "Cei-Rigotti Trench": "Cei-Rigotti Siper",
+  "Selbstlader M1916 Marksman": "Selbstlader M1916 Nişancı",
+  "M1907 SL Factory": "M1907 SL Fabrika",
+  "Autoloading 8 .35 Factory": "Autoloading 8 .35 Fabrika",
+  "Autoloading 8 .35 Marksman": "Autoloading 8 .35 Nişancı",
+  "RSC 1917 Factory": "RSC 1917 Fabrika",
+  "RSC 1917 Optical": "RSC 1917 Dürbünlü",
+  "Selbstlader 1906 Sniper": "Selbstlader 1906 Keskin Nişancı",
+  "General Liu Rifle Storm": "General Liu Rifle Fırtına",
+};
+
 // Vehicle type mappings
 const VEHICLE_TYPE_NAMES: Record<string, string> = {
   "Tank": "Tank",
@@ -144,18 +200,21 @@ const VEHICLE_TYPE_NAMES: Record<string, string> = {
 };
 
 function parseRawData(raw: RawApiData): ParsedStats {
-  const weapons: ParsedWeapon[] = (raw.weapons || []).map((w: RawApiData) => ({
-    name: w.weaponName || w.name || "?",
-    type: WEAPON_TYPE_NAMES[w.type] || w.type || "",
-    image: w.image || "",
-    kills: parseNum(w.kills),
-    kpm: parseNum(w.killsPerMinute),
-    headshotPct: parsePct(w.headshots),
-    accuracy: parsePct(w.accuracy),
-    timeEquippedSec: parseNum(w.timeEquipped),
-    shotsFired: parseNum(w.shotsFired),
-    shotsHit: parseNum(w.shotsHit),
-  }));
+  const weapons: ParsedWeapon[] = (raw.weapons || []).map((w: RawApiData) => {
+    const weaponName = w.weaponName || w.name || "?";
+    return {
+      name: WEAPON_NAME_MAP[weaponName] || weaponName,
+      type: WEAPON_TYPE_NAMES[w.type] || w.type || "",
+      image: w.image || "",
+      kills: parseNum(w.kills),
+      kpm: parseNum(w.killsPerMinute),
+      headshotPct: parsePct(w.headshots),
+      accuracy: parsePct(w.accuracy),
+      timeEquippedSec: parseNum(w.timeEquipped),
+      shotsFired: parseNum(w.shotsFired),
+      shotsHit: parseNum(w.shotsHit),
+    };
+  });
 
   const vehicles: ParsedVehicle[] = (raw.vehicles || []).map((v: RawApiData) => ({
     name: v.vehicleName || v.name || "?",

@@ -123,3 +123,8 @@
 - [x] Son oynadığı sunucu, harita ve oyun zamanı bilgisi göster
 - [x] Oyuncunun en çok kullandığı silahları ve sınıfları göster
 - [x] Profil sayfasına Oyuncu İstatistikleri sayfasından link ekle
+
+## 12. Gametools API Veri Kontrolü ve Silah Türkçeleştirmesi
+- [ ] Gametools API'nin sağladığı verileri kontrol et (sunucu, harita, oyun zamanı)
+- [x] İstatistik kısmındaki silah adlarını Ansiklopedi'deki Türkçe adlarla eşleştir
+- [ ] Oyuncu Profil Sayfasına sunucu ve harita bilgisini ekle
