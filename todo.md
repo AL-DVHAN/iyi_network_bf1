@@ -106,3 +106,8 @@
 ## 8. Türkçeleştirme - Oyuncu İstatistikleri
 - [x] Silah türlerini Türkçeleştir (Assault Rifle → Saldırı Tüfeği, vb.)
 - [x] Araç türlerini Türkçeleştir (Tank, Plane, Helicopter → Türkçe karşılıkları)
+
+## 9. Oyuncu Arama Geliştirmesi
+- [x] Oyuncu İstatistikleri sayfasına autocomplete/dropdown önerileri ekle
+- [x] Gametools API'den oyuncu önerileri göster (2+ karakter yazınca)
+- [x] Önerilere tıklanabilir ve seçim yapılabilir hale getir

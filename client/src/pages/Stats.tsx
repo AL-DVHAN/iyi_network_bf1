@@ -1,7 +1,8 @@
 import { useState, useEffect, useMemo } from "react";
 import { useSearch, useLocation } from "wouter";
 import { trpc } from "@/lib/trpc";
-import { secondsToHoursCeil, formatNumber, formatKD } from "@/lib/utils";
+import { secondsToHoursCeil, formatNumber, formatKD, normalizeTurkish } from "@/lib/utils";
+import Fuse from "fuse.js";
 import {
   Search, User, Target, Clock, TrendingUp, Crosshair, Shield,
   Award, AlertCircle, ChevronUp, ChevronDown, ChevronsUpDown
@@ -252,6 +253,9 @@ export default function Stats() {
   const [playerInput, setPlayerInput] = useState(initialPlayer);
   const [searchedPlayer, setSearchedPlayer] = useState(initialPlayer);
   const [platform, setPlatform] = useState("pc");
+  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [showSuggestions, setShowSuggestions] = useState(false);
+  const [suggestionsLoading, setSuggestionsLoading] = useState(false);
 
   const statsQuery = trpc.stats.getPlayer.useQuery(
     { name: searchedPlayer, platform },
@@ -267,7 +271,38 @@ export default function Stats() {
     if (!playerInput.trim()) return;
     const normalized = playerInput.trim();
     setSearchedPlayer(normalized);
+    setShowSuggestions(false);
     navigate(`/istatistik?player=${encodeURIComponent(normalized)}`);
+  };
+
+  const handleInputChange = async (value: string) => {
+    setPlayerInput(value);
+    if (value.length < 2) {
+      setSuggestions([]);
+      setShowSuggestions(false);
+      return;
+    }
+    setSuggestionsLoading(true);
+    setShowSuggestions(true);
+    try {
+      const response = await fetch(`https://api.gametools.network/v1/players/search?name=${encodeURIComponent(value)}&limit=5`);
+      if (response.ok) {
+        const data = await response.json();
+        const playerNames = data.players?.map((p: { name: string }) => p.name) || [];
+        setSuggestions(playerNames);
+      }
+    } catch (error) {
+      console.error("Oyuncu arama hatası:", error);
+    } finally {
+      setSuggestionsLoading(false);
+    }
+  };
+
+  const handleSuggestionClick = (name: string) => {
+    setPlayerInput(name);
+    setSearchedPlayer(name);
+    setShowSuggestions(false);
+    navigate(`/istatistik?player=${encodeURIComponent(name)}`);
   };
 
   const data: ParsedStats | undefined = useMemo(() => {
@@ -295,11 +330,33 @@ export default function Stats() {
           <Search size={14} className="absolute left-3 top-1/2 -translate-y-1/2 text-muted-foreground" />
           <input
             value={playerInput}
-            onChange={e => setPlayerInput(e.target.value)}
+            onChange={e => handleInputChange(e.target.value)}
+            onFocus={() => playerInput.length >= 2 && setShowSuggestions(true)}
             placeholder="Oyuncu adı gir (örn: DVHAN, rainrapmusic0001)"
             className="w-full h-10 pl-9 pr-3 text-sm rounded-l border outline-none"
             style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }}
           />
+          {showSuggestions && (suggestions.length > 0 || suggestionsLoading) && (
+            <div className="absolute top-full left-0 right-0 mt-1 border rounded-md shadow-lg z-50" style={{ background: "var(--card)", borderColor: "var(--border)" }}>
+              {suggestionsLoading ? (
+                <div className="p-2 text-xs text-muted-foreground text-center">Aranıyor...</div>
+              ) : (
+                <ul>
+                  {suggestions.map((name, i) => (
+                    <li key={i}>
+                      <button
+                        type="button"
+                        onClick={() => handleSuggestionClick(name)}
+                        className="w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors"
+                      >
+                        {name}
+                      </button>
+                    </li>
+                  ))}
+                </ul>
+              )}
+            </div>
+          )}
         </div>
         <select value={platform} onChange={e => setPlatform(e.target.value)} className="h-10 px-3 text-sm border outline-none" style={{ background: "var(--input)", borderColor: "var(--border)", color: "var(--foreground)" }}>
           <option value="pc">PC</option>
