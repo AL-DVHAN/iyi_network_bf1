@@ -116,3 +116,10 @@
 - [x] Arama dropdown'unda her oyuncu için son oynadığı sunucuyu göster
 - [x] Oyuncunun aktif olup olmadığını göster (çevrimiçi/çevrimdışı)
 - [x] Oyuncu avatarı ve K/D oranını arama sonuçlarında göster
+
+## 11. Oyuncu Profil Sayfası
+- [x] Oyuncu Profil Sayfası bileşeni oluştur (/oyuncu/:isim)
+- [x] Detaylı oyuncu istatistikleri göster (K/D, KPM, SPM, oyun saati, vb.)
+- [x] Son oynadığı sunucu, harita ve oyun zamanı bilgisi göster
+- [x] Oyuncunun en çok kullandığı silahları ve sınıfları göster
+- [x] Profil sayfasına Oyuncu İstatistikleri sayfasından link ekle

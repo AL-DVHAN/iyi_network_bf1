@@ -308,7 +308,7 @@ export default function Stats() {
     setPlayerInput(player.name);
     setSearchedPlayer(player.name);
     setShowSuggestions(false);
-    navigate(`/istatistik?player=${encodeURIComponent(player.name)}`);
+    window.location.href = `/oyuncu?name=${encodeURIComponent(player.name)}`;
   };
 
   const data: ParsedStats | undefined = useMemo(() => {
@@ -700,7 +700,7 @@ function ClassesTable({ classes }: { classes: ParsedClass[] }) {
                     {c.image && (
                       <img src={c.image} alt={c.name} className="w-7 h-7 object-contain" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
                     )}
-                    <span className="text-sm font-medium text-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => window.location.href = `/ansiklopedi?search=${encodeURIComponent(c.name)}`}>{c.name}</span>
+                    <span className="text-sm font-medium text-foreground cursor-pointer hover:text-primary transition-colors" onClick={() => window.location.href = `/oyuncu?name=${encodeURIComponent(c.name)}`}>{c.name}</span>
                   </div>
                 </td>
                 <td className="font-semibold" style={{ color: "oklch(0.75 0.16 75)" }}>{formatNumber(c.kills)}</td>

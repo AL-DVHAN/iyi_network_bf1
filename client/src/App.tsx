@@ -17,6 +17,7 @@ import Profile from "./pages/Profile";
 import Admin from "./pages/Admin";
 import Donate from "./pages/Donate";
 import BanList from "./pages/BanList";
+import PlayerProfile from "./pages/PlayerProfile";
 
 function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -75,6 +76,7 @@ function Router() {
         <Route path="/admin" component={Admin} />
         <Route path="/destek" component={Donate} />
         <Route path="/ban-listesi" component={BanList} />
+        <Route path="/oyuncu" component={PlayerProfile} />
         <Route path="/404" component={NotFound} />
         <Route component={NotFound} />
       </Switch>
