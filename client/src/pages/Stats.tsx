@@ -253,7 +253,7 @@ export default function Stats() {
   const [playerInput, setPlayerInput] = useState(initialPlayer);
   const [searchedPlayer, setSearchedPlayer] = useState(initialPlayer);
   const [platform, setPlatform] = useState("pc");
-  const [suggestions, setSuggestions] = useState<string[]>([]);
+  const [suggestions, setSuggestions] = useState<Array<{ name: string; avatar?: string; kd?: number; lastServer?: string; isOnline?: boolean }>>([]);
   const [showSuggestions, setShowSuggestions] = useState(false);
   const [suggestionsLoading, setSuggestionsLoading] = useState(false);
 
@@ -288,8 +288,14 @@ export default function Stats() {
       const response = await fetch(`https://api.gametools.network/v1/players/search?name=${encodeURIComponent(value)}&limit=5`);
       if (response.ok) {
         const data = await response.json();
-        const playerNames = data.players?.map((p: { name: string }) => p.name) || [];
-        setSuggestions(playerNames);
+        const playerData = data.players?.map((p: { name: string; avatar?: string; killDeath?: number; lastServer?: string; isOnline?: boolean }) => ({
+          name: p.name,
+          avatar: p.avatar,
+          kd: p.killDeath,
+          lastServer: p.lastServer,
+          isOnline: p.isOnline,
+        })) || [];
+        setSuggestions(playerData);
       }
     } catch (error) {
       console.error("Oyuncu arama hatası:", error);
@@ -298,11 +304,11 @@ export default function Stats() {
     }
   };
 
-  const handleSuggestionClick = (name: string) => {
-    setPlayerInput(name);
-    setSearchedPlayer(name);
+  const handleSuggestionClick = (player: { name: string; avatar?: string; kd?: number; lastServer?: string; isOnline?: boolean }) => {
+    setPlayerInput(player.name);
+    setSearchedPlayer(player.name);
     setShowSuggestions(false);
-    navigate(`/istatistik?player=${encodeURIComponent(name)}`);
+    navigate(`/istatistik?player=${encodeURIComponent(player.name)}`);
   };
 
   const data: ParsedStats | undefined = useMemo(() => {
@@ -342,14 +348,32 @@ export default function Stats() {
                 <div className="p-2 text-xs text-muted-foreground text-center">Aranıyor...</div>
               ) : (
                 <ul>
-                  {suggestions.map((name, i) => (
+                  {suggestions.map((player, i) => (
                     <li key={i}>
                       <button
                         type="button"
-                        onClick={() => handleSuggestionClick(name)}
+                        onClick={() => handleSuggestionClick(player)}
                         className="w-full text-left px-3 py-2 text-sm hover:bg-muted transition-colors"
                       >
-                        {name}
+                        <div className="flex items-center gap-2">
+                          {player.avatar && (
+                            <img src={player.avatar} alt={player.name} className="w-6 h-6 rounded" onError={e => { (e.target as HTMLImageElement).style.display = "none"; }} />
+                          )}
+                          <div className="flex-1">
+                            <div className="font-medium">{player.name}</div>
+                            <div className="text-xs text-muted-foreground">
+                              {player.isOnline ? (
+                                <span style={{ color: "oklch(0.65 0.12 140)" }}>● Çevrimiçi</span>
+                              ) : (
+                                <span>Çevrimdışı</span>
+                              )}
+                              {player.kd !== undefined && ` • K/D: ${player.kd.toFixed(2)}`}
+                            </div>
+                            {player.lastServer && (
+                              <div className="text-xs text-muted-foreground truncate">Sunucu: {player.lastServer}</div>
+                            )}
+                          </div>
+                        </div>
                       </button>
                     </li>
                   ))}

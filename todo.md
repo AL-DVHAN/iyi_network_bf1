@@ -111,3 +111,8 @@
 - [x] Oyuncu İstatistikleri sayfasına autocomplete/dropdown önerileri ekle
 - [x] Gametools API'den oyuncu önerileri göster (2+ karakter yazınca)
 - [x] Önerilere tıklanabilir ve seçim yapılabilir hale getir
+
+## 10. Oyuncu Arama Sonuçları Geliştirmesi
+- [x] Arama dropdown'unda her oyuncu için son oynadığı sunucuyu göster
+- [x] Oyuncunun aktif olup olmadığını göster (çevrimiçi/çevrimdışı)
+- [x] Oyuncu avatarı ve K/D oranını arama sonuçlarında göster
