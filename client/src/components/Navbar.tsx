@@ -171,6 +171,18 @@ export default function Navbar() {
 
           {/* Right: Theme + Search + Auth */}
           <div className="flex items-center gap-2 shrink-0">
+            {/* Destek Ol Button */}
+            <a
+              href="https://kreosus.com/kayiboyucomtr/about"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="flex items-center gap-1.5 px-3.5 h-9 rounded-md text-xs font-semibold no-underline transition-all hidden sm:flex"
+              style={{ background: "oklch(0.75 0.16 75)", color: "var(--card)" }}
+              title="Klan destekçisi ol"
+            >
+              <Crown size={13} />
+              <span>Destek Ol</span>
+            </a>
 
             {/* Theme Switcher */}
             <div ref={themeMenuRef} className="relative">

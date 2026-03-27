@@ -135,4 +135,5 @@
 - [ ] netlify.toml dosyası oluştur
 
 ## 14. Destek Ol Butonu
-- [x] "Destek Ol" butonunu Kreosus bağlantısına yönlendir (https://kreosus.com/kayiboyucomtr/about)
+- [x] "Destek Ol" butonunu navbar'a direkt ekle (giriş yapmadan erişilebilir)
+- [x] Kreosus bağlantısına yönlendir (https://kreosus.com/kayiboyucomtr/about)
