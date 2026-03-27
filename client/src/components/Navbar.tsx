@@ -281,9 +281,9 @@ export default function Navbar() {
                         <Shield size={14} /> Admin Paneli
                       </Link>
                     )}
-                    <Link href="/destek" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent/50 transition-colors no-underline" style={{ color: "oklch(0.75 0.16 75)" }}>
+                    <a href="https://kreosus.com/kayiboyucomtr/about" target="_blank" rel="noopener noreferrer" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent/50 transition-colors no-underline" style={{ color: "oklch(0.75 0.16 75)" }}>
                       <Crown size={14} /> Destekçi Ol
-                    </Link>
+                    </a>
                     <div className="border-t" style={{ borderColor: "var(--border)" }}>
                       <button onClick={() => { logout(); setUserMenuOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors">
                         <LogOut size={14} /> Çıkış Yap

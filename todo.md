@@ -128,3 +128,11 @@
 - [ ] Gametools API'nin sağladığı verileri kontrol et (sunucu, harita, oyun zamanı)
 - [x] İstatistik kısmındaki silah adlarını Ansiklopedi'deki Türkçe adlarla eşleştir
 - [ ] Oyuncu Profil Sayfasına sunucu ve harita bilgisini ekle
+
+## 13. Netlify Deploy Optimizasyonu
+- [ ] Netlify Functions setup - Backend API proxy
+- [ ] Frontend konfigürasyonunu Netlify için güncelle
+- [ ] netlify.toml dosyası oluştur
+
+## 14. Destek Ol Butonu
+- [x] "Destek Ol" butonunu Kreosus bağlantısına yönlendir (https://kreosus.com/kayiboyucomtr/about)
