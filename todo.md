@@ -137,3 +137,8 @@
 ## 14. Destek Ol Butonu
 - [x] "Destek Ol" butonunu navbar'a direkt ekle (giriş yapmadan erişilebilir)
 - [x] Kreosus bağlantısına yönlendir (https://kreosus.com/kayiboyucomtr/about)
+
+## 15. Navbar Tasarım Güncellemesi
+- [x] Navbar elemanlarının boyutlarını büyüt (h-16 → h-20, gap-4 → gap-6)
+- [x] "Destek Ol" butonunu aşağıya taşı (navbar altına sarı bar olarak)
+- [x] Profil menüsündeki "Destekçi Ol" linkini kaldır

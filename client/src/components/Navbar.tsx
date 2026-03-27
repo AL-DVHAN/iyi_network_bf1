@@ -132,7 +132,7 @@ export default function Navbar() {
     <nav className="sticky top-0 z-50 w-full" style={{ background: "var(--card)", borderBottom: "1px solid var(--border)" }}>
       {/* Main bar - taller height */}
       <div className="container">
-        <div className="flex items-center justify-between h-16 gap-4">
+        <div className="flex items-center justify-between h-20 gap-6">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2.5 shrink-0 no-underline">
             <img
@@ -171,18 +171,7 @@ export default function Navbar() {
 
           {/* Right: Theme + Search + Auth */}
           <div className="flex items-center gap-2 shrink-0">
-            {/* Destek Ol Button */}
-            <a
-              href="https://kreosus.com/kayiboyucomtr/about"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-1.5 px-3.5 h-9 rounded-md text-xs font-semibold no-underline transition-all hidden sm:flex"
-              style={{ background: "oklch(0.75 0.16 75)", color: "var(--card)" }}
-              title="Klan destekçisi ol"
-            >
-              <Crown size={13} />
-              <span>Destek Ol</span>
-            </a>
+
 
             {/* Theme Switcher */}
             <div ref={themeMenuRef} className="relative">
@@ -293,9 +282,7 @@ export default function Navbar() {
                         <Shield size={14} /> Admin Paneli
                       </Link>
                     )}
-                    <a href="https://kreosus.com/kayiboyucomtr/about" target="_blank" rel="noopener noreferrer" onClick={() => setUserMenuOpen(false)} className="flex items-center gap-2 px-3 py-2 text-sm hover:bg-accent/50 transition-colors no-underline" style={{ color: "oklch(0.75 0.16 75)" }}>
-                      <Crown size={14} /> Destekçi Ol
-                    </a>
+
                     <div className="border-t" style={{ borderColor: "var(--border)" }}>
                       <button onClick={() => { logout(); setUserMenuOpen(false); }} className="w-full flex items-center gap-2 px-3 py-2 text-sm text-destructive hover:bg-destructive/10 transition-colors">
                         <LogOut size={14} /> Çıkış Yap
@@ -316,6 +303,22 @@ export default function Navbar() {
               <Menu size={18} />
             </button>
           </div>
+        </div>
+      </div>
+
+      {/* Destek Ol Section */}
+      <div className="border-t" style={{ borderColor: "var(--border)", background: "var(--muted)" }}>
+        <div className="container">
+          <a
+            href="https://kreosus.com/kayiboyucomtr/about"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold no-underline transition-all hover:opacity-90"
+            style={{ background: "oklch(0.75 0.16 75)", color: "var(--card)" }}
+          >
+            <Crown size={18} />
+            <span>Klan Destekçisi Ol</span>
+          </a>
         </div>
       </div>
 
