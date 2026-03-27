@@ -292,10 +292,23 @@ export default function Navbar() {
                 )}
               </div>
             ) : (
-              <a href={getLoginUrl()} className="flex items-center gap-1.5 px-3.5 h-9 rounded-md text-xs font-semibold no-underline transition-all" style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}>
-                <User size={13} />
-                <span>Giriş Yap</span>
-              </a>
+              <>
+                <a href={getLoginUrl()} className="flex items-center gap-1.5 px-3.5 h-9 rounded-md text-xs font-semibold no-underline transition-all" style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}>
+                  <User size={13} />
+                  <span>Giriş Yap</span>
+                </a>
+                <a
+                  href="https://kreosus.com/kayiboyucomtr/about"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="flex items-center gap-1 px-2.5 h-9 rounded-md text-xs font-semibold no-underline transition-all hidden sm:flex"
+                  style={{ background: "oklch(0.75 0.16 75)", color: "var(--card)" }}
+                  title="Klan destekçisi ol"
+                >
+                  <Crown size={13} />
+                  <span>Destek Ol</span>
+                </a>
+              </>
             )}
 
             {/* Mobile menu toggle */}
@@ -303,22 +316,6 @@ export default function Navbar() {
               <Menu size={18} />
             </button>
           </div>
-        </div>
-      </div>
-
-      {/* Destek Ol Section */}
-      <div className="border-t" style={{ borderColor: "var(--border)", background: "var(--muted)" }}>
-        <div className="container">
-          <a
-            href="https://kreosus.com/kayiboyucomtr/about"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center justify-center gap-2 px-4 py-3 text-sm font-semibold no-underline transition-all hover:opacity-90"
-            style={{ background: "oklch(0.75 0.16 75)", color: "var(--card)" }}
-          >
-            <Crown size={18} />
-            <span>Klan Destekçisi Ol</span>
-          </a>
         </div>
       </div>
 
