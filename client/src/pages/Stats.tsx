@@ -100,10 +100,10 @@ const CLASS_NAMES: Record<string, string> = {
   "Assault": "Taarruz",
   "Medic": "Sıhhiyeci",
   "Scout": "Nişancı",
-  "Support": "Tankçı",
+  "Support": "Destek",
   "Attack": "Taarruz",
   "Recon": "Nişancı",
-  "Cavalry": "Tankçı",
+  "Cavalry": "Süvari",
   "Pilot": "Pilot",
   "Tanker": "Tankçı",
 };
