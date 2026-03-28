@@ -306,7 +306,6 @@ export default function Home() {
               <div className="divide-y" style={{ borderColor: "var(--border)" }}>
                 {[
                   { href: "/ban-listesi", label: "Ban Listesi", icon: Shield },
-                  { href: "/destek", label: "Destekçi Ol", icon: Star },
                   { href: "/geri-bildirim", label: "Geri Bildirim", icon: Target },
                 ].map((link, i) => {
                   const Icon = link.icon;

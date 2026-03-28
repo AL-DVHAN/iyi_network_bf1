@@ -293,10 +293,10 @@ export default function Navbar() {
               </div>
             ) : (
               <>
-                <a href={getLoginUrl()} className="flex items-center gap-1.5 px-3.5 h-9 rounded-md text-xs font-semibold no-underline transition-all" style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}>
+                <button disabled className="flex items-center gap-1.5 px-3.5 h-9 rounded-md text-xs font-semibold cursor-not-allowed opacity-60" style={{ background: "var(--primary)", color: "var(--primary-foreground)" }}>
                   <User size={13} />
-                  <span>Giriş Yap</span>
-                </a>
+                  <span>BAKIMDA</span>
+                </button>
                 <a
                   href="https://kreosus.com/kayiboyucomtr/about"
                   target="_blank"
