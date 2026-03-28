@@ -385,7 +385,7 @@ export default function Stats() {
         </div>
         <div>
           <h1 className="text-2xl font-bold" style={{ fontFamily: "'Oswald', sans-serif" }}>Oyuncu İstatistikleri</h1>
-          <p className="text-sm text-muted-foreground">Gametools Network API ile gerçek zamanlı BF1 verileri</p>
+
         </div>
       </div>
 
